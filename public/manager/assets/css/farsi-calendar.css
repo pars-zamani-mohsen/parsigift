@@ -1,0 +1,194 @@
+/* page header & footer */
+.page-header {
+    margin: 20px auto 20px auto;
+}
+
+.page-footer {
+    font-size: 10px;
+    margin: 20px auto 20px auto;
+}
+
+.page-footer a {
+    margin: 0 7px 0 0;
+}
+
+/* calendar */
+.font-eng {
+    font-family: Tahoma, 'Segoe UI', Verdana, sans-serif !important;
+}
+
+.font-fa {
+    font-family: 'irsans' !important;
+}
+
+.dayoff {
+    color: red !important;
+}
+
+.tdinfo {
+    margin: 2px 0 2px 0;
+}
+
+.fc-table {
+    font-family: 'irsans', Tahoma, 'Segoe UI', Verdana, sans-serif;
+    /*background-color: #f9f9f9;*/
+    direction: rtl;
+}
+
+.fc-table caption {
+    text-align: right;
+}
+
+.fc-table th,
+.fc-table td {
+    padding: 10px;
+    white-space: pre;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.fc-table th {
+    background-color: #EF6C00;
+    color: white;
+    border: 1px solid #d8d8d8;
+    font-size: 15px;
+}
+
+.fc-table td {
+    border: 1px solid #d8d8d8;
+    width: 100px;
+    height: 100px;
+}
+
+.fc-table td.dayoff {
+    background-color: #fdefee;
+    color: red !important;
+}
+
+.fc-table td b {
+    font-size: 20px;
+}
+
+.fc-table td span {
+    font-family: 'Tahoma' !important;
+    font-size: 9px;
+    color: #5b5b5b;
+}
+
+@media (max-width: 768px) {
+    .fc-table th {
+        font-size: 1.8vw;
+    }
+
+    .fc-table td {
+        width: 5vw;
+        height: 5vw;
+    }
+
+    .fc-table td b {
+        font-size: 2.5vw;
+    }
+
+    .fc-table td span {
+        font-size: 1vw;
+    }
+}
+
+.fc-table td:hover {
+    background-color: #4B69AE;
+    cursor: pointer;
+    color: white !important;
+    -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
+}
+
+.fc-today {
+    background-color: #4BAE7629 !important;
+}
+
+.fc-table td:hover span {
+    color: #D3D3D3;
+}
+
+.bd-next, .bd-prev {
+    background-image: url('/manager/assets/images/timeir_next.png');
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-color: #fff0;
+    width: 20px;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    height: 20px;
+    border: none;
+}
+
+.bd-next {
+    background-image: url('/manager/assets/images/arrow-next.png');
+    float: right;
+    background-size: contain;
+}
+
+.bd-prev {
+    background-image: url('/manager/assets/images/arrow-prev.png');
+    float: left;
+    background-size: contain;
+}
+
+.month-picker * {
+    font-size: 20px;
+}
+
+.month-picker .picker-inner button {
+    width: 60px;
+    height: 60px;
+    background-size: 30px;
+}
+
+.month-picker {
+}
+
+.month-picker .picker-inner label {
+    font-size: 28px;
+}
+
+.year-picker {
+}
+
+.year-picker .picker-inner label {
+    font-size: 18px;
+}
+
+.fc-table {
+    width: 100%;
+    max-width: 100%;
+    display: table;
+}
+
+.fc-calendar {
+    max-width: 100% !important;
+    width: 100%;
+    position: relative;
+    display: block;
+    padding-top: 80px;
+}
+.fc-calendar caption{
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+@media screen and (max-width: 576px) {
+    .fc-table {
+        overflow-x: scroll;
+    }
+
+    .year-picker .picker-inner label {
+        font-size: 14px;
+    }
+
+    .month-picker .picker-inner button {
+        background-size: 30px;
+    }
+}

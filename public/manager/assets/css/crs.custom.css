@@ -1,0 +1,45 @@
+@font-face {
+    font-family: 'irsans';
+    src: url(../font/IRANSansXV.woff2) format("woff2-variations"), url("iransansxv.woff2") format("woff2");
+    font-weight: 100 900;
+    font-display: fallback
+}
+
+.irsans {
+    font-family: "irsans", "serif";
+}
+
+div.calc-form .form-group {
+    display: none;
+    margin: 50px 0;
+}
+
+.display-block {
+    display: block !important;
+}
+
+.display-none {
+    display: none !important;
+}
+
+.list-style {
+    list-style: none;
+    column-count: 3;
+    padding-bottom: 50px;
+}
+
+.list-style li {
+    margin-bottom: 15px;
+}
+
+.list-style li a {
+    color: white;
+}
+
+label {
+    font-weight: bold;
+}
+select > option {
+    font-family: "Times New Roman", "irsans", "serif";
+    font-size: 16px;
+}

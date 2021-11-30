@@ -1,0 +1,128 @@
+/**
+* Zamani custom css code
+* <link href="{{ asset('assets/css/custom.css')}}" rel="stylesheet">
+*/
+@font-face {
+    font-family: 'irsans';
+    font-weight: 100 900;
+    font-display: fallback;
+    src: url('../font/IRANSansXV.woff2') format("woff2-variations"), url("../font/IRANSansXV.woff2") format("woff2");
+}
+.irsans {
+    font-family: "irsans", "serif";
+}
+body {
+    font-family: "irsans", "Times New Roman", "serif";
+    font-size: 16px;
+}
+.dashboard-icon .bi {
+    font-size: 30px;
+    padding: 15px 15px 0 15px;
+    border-radius: 15px;
+}
+.toast-close {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+.bi-line-height::before {
+    line-height: unset !important;
+}
+.choices__list--single .choices__item {
+    padding-right: 15px;
+}
+.my-paginate .pagination {
+    display: inline-flex !important;
+}
+.text-justify {
+    text-align: justify;
+}
+.row-ticket-reply {
+    padding: 30px 0 20px 0;
+    border-bottom: 1px dotted #435ebe45;
+}
+.row-ticket-reply:first-child {
+    padding: 0 0 20px 0;
+}
+.row-ticket-reply:last-child {
+    padding: 20px 0 0 0;
+    border-bottom: unset;
+}
+.bg-custom-y {
+    background-color: #f0cd0d0d !important;
+}
+.seen {
+    font-size: 12px;
+    text-align: left;
+    padding: 5px;
+    position: absolute;
+    top: 2px;
+    color: #a52a2a6e;
+    direction: ltr;
+    text-align: left;
+}
+.new-user-continer {
+    border: 1px solid #f4f4f4;
+    padding-bottom: 15px;
+    background: #f2f7ff;
+    margin: 0 0 20px 0;
+}
+.edit-avatar p {
+    display: none;
+    font-size: 10px;
+    top: 25%;
+}
+.edit-avatar:hover img{
+    opacity: 0.2;
+}
+.edit-avatar:hover p {
+    display: block;
+}
+.select-avatar{
+    border: 2px solid #ff5959;
+}
+.sidebar-wrapper .sidebar-header img {
+    height: 4rem;
+}
+.chat-datetime{
+    font-size: 10px;
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+    color: darkgray;
+}
+.fs-7{
+    font-size: 12px;
+}
+
+/*
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+@media (min-width: 1025px) and (max-width: 1280px) {
+
+}
+
+/*
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+@media (min-width: 769px) and (max-width: 1024px) {
+
+}
+
+/*
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+@media (min-width: 481px) and (max-width: 768px) {
+
+}
+
+/*
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+@media (min-width: 320px) and (max-width: 480px) {
+
+}
