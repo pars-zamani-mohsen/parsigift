@@ -28,7 +28,7 @@ class GiftRequestController extends Controller
         );
         $this->validate($request, $validate_data);
 
-        $waiting = 3;
+        $waiting = 5;
         $created_at = strtotime("-$waiting minutes", time());
         $checker = GiftRequest::select('id')->where('mobile', $request->mobile)->where('created_at', '>=' , $created_at)->first();
 
@@ -43,10 +43,8 @@ class GiftRequestController extends Controller
 
             if ($result) {
                 /* deactive gift */
-                if (!(strpos($gift->title, 'متاسفانه بخت با شما یار نبود') !== false)) {
-                    $gift->active = 0;
-                    $gift->save();
-                }
+                $gift->active = 0;
+                $gift->save();
 
                 /* initialize message */
                 $message = "سلام همکار عزیز" . "\n";

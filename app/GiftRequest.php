@@ -89,7 +89,7 @@ class GiftRequest extends Model
      */
     public function fetchAll_paginate($limit)
     {
-        return GiftRequest::select('id', 'gift_id', 'url', 'mobile', 'created_at')->with(['gift'])->orderBy('id', 'DESC')->paginate($limit);
+        return GiftRequest::select('id', 'gift_id', 'url', 'mobile', 'created_at', 'updated_at')->with(['gift'])->orderBy('id', 'DESC')->paginate($limit);
     }
 
     /**
@@ -101,7 +101,7 @@ class GiftRequest extends Model
      */
     public static function fetch_allTrush_limited_columns(int $limit)
     {
-        return GiftRequest::select('id', 'gift_id', 'url', 'mobile', 'created_at')->onlyTrashed()->paginate($limit);
+        return GiftRequest::select('id', 'gift_id', 'url', 'mobile', 'created_at', 'updated_at')->onlyTrashed()->paginate($limit);
     }
 
     /**

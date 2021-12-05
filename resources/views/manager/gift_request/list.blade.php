@@ -20,7 +20,7 @@
                     <td>#{{ $item['id'] }}</td>
                     <td>{{ $item['url'] }}</td>
                     <td>{{ $item['mobile'] }}</td>
-                    <td><a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() . '/gift/' . $item['gift_id'] . '/edit') }}">#{{ $item['gift_id'] }}-{{ $item->gift->title }}</a></td>
+                    <td><a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() . '/gift/' . $item['gift_id'] . '/edit') }}">#{{ $item['gift_id'] }}-{{ $item->gift->title ?? '' }}</a></td>
                     <td dir="ltr" class="text-start">{{ App\AdditionalClasses\Date::timestampToShamsiDatetime($item['updated_at']) }}</td>
                     <td>
                         <a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $modulename['en'] . '/' . $item['id'] . '/history') }}" title="تاریخجه"> <i class="bi bi-clock-history text-info"></i> </a>
