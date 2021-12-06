@@ -28,40 +28,46 @@ class GiftRequestController extends Controller
         );
         $this->validate($request, $validate_data);
 
-        $waiting = 5;
+        $waiting = 3;
         $created_at = strtotime("-$waiting minutes", time());
         $checker = GiftRequest::select('id')->where('mobile', $request->mobile)->where('created_at', '>=' , $created_at)->first();
 
         if (!$checker) {
             $gift = Gift::active()->inRandomOrder()->first();
 
-            $instance = new GiftRequest();
-            $instance->gift_id = $gift->id;
-            $instance->url = $request->url;
-            $instance->mobile = $request->mobile;
-            $result = $instance->save();
+            if ($gift) {
+                $instance = new GiftRequest();
+                $instance->gift_id = $gift->id;
+                $instance->url = $request->url;
+                $instance->mobile = $request->mobile;
+                $result = $instance->save();
 
-            if ($result) {
-                /* deactive gift */
-                $gift->active = 0;
-                $gift->save();
+                if ($result) {
+                    /* deactive gift */
+                    $gift->active = 0;
+                    $gift->save();
 
-                /* initialize message */
-                $message = "سلام همکار عزیز" . "\n";
-                $message .= "هدیه شما: ";
+                    /* initialize message */
+                    $message = "سلام همکار عزیز" . "\n";
+                    $message .= "هدیه شما: ";
 
-                if ($gift->qty) $message .= $gift->qty . " ";
-                $message .= $gift->title;
-                if ($gift->amount) $message .= " به ارزش " . $gift->amount . " تومان ";
+                    if ($gift->qty) $message .= $gift->qty . " ";
+                    $message .= $gift->title;
+                    if ($gift->amount) $message .= " به ارزش " . $gift->amount . " تومان ";
 
-                $message .= "\n" . "با سپاس از همراهی شما";
+                    $message .= "\n" . "با سپاس از همراهی شما";
 
-                /* send message */
-                Message::send_simple_sms(Message::getSmsSenderNumber(), [$request->mobile], $message);
-                return response()->json(array('success' => true), 201);
+                    /* send message */
+                    Message::send_simple_sms(Message::getSmsSenderNumber(), [$request->mobile], $message);
+                    return response()->json(array('success' => true), 201);
+                }
+            } else {
+                $message = "جوایز به اتمام رسید";
             }
+        } else {
+            $message = "ثبت تکراری در بازه $waiting دقیقه";
         }
 
-        return response()->json(array('success' => false, 'errors' => array("ثبت تکراری در بازه $waiting دقیقه")), 201);
+        return response()->json(array('success' => false, 'errors' => array($message ?? 'خطا در ثبت اطلاعات')), 201);
     }
 }

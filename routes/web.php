@@ -43,6 +43,7 @@ Route::group(['prefix' => '/_manager', 'middleware' => 'auth'], function(){
     Route::get('/gift_request', 'GiftRequestController@index');
     Route::get('gift_request/{id}/delete', 'GiftRequestController@destroy')->name('GiftRequest.destroy');
     Route::get('gift_request/{id}/history', 'GiftRequestController@getHistory')->name('GiftRequest.history');
+    Route::get('gift_request/module/search', 'GiftRequestController@search')->name('GiftRequest.search');
 
     // User
     Route::resource('/user', 'UserController');

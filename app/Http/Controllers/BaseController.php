@@ -29,16 +29,23 @@ class BaseController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * Return params can have: "onlylist", "is_related_list", "import", "export" to add or remove buttons
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Return params can have: "onlylist", "is_related_list", "search", "import", "export", "shortcode" to add or remove buttons
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function index()
     {
-        return view($this->parent['path'] . '.' . $this->modulename['en'] . '.list', array(
-            'modulename' => $this->modulename,
-            'title' => ' فهرست ' . $this->modulename['fa'],
-            'all' => $this->instance->fetchAll_paginate(20),
-        ));
+        try {
+            return view($this->parent['path'] . '.' . $this->modulename['en'] . '.list', array(
+                'modulename' => $this->modulename,
+                'title' => ' فهرست ' . $this->modulename['fa'],
+                'all' => $this->instance->fetchAll_paginate(20),
+                'search' => true,
+            ));
+
+        } catch (\Exception $e) {
+            Session::flash('alert', $e->getMessage());
+            return redirect()->back();
+        }
     }
 
     /**
@@ -167,6 +174,52 @@ class BaseController extends Controller
         }
 
         return $this->function_response(404);
+    }
+
+    /**
+     * Search
+     * @param Request $request Id, title, date and ...
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function search(Request $request)
+    {
+        try {
+            $query = $this->instance::query();
+            $fields = $this->instance::$modulefields;
+            $parameter = Date::convertPersianNumToEnglish($request->field);
+
+            if (isset($parameter) && $parameter) {
+                if (Date::dateValidate($parameter)) {
+                    $fromdate = Date::shamsiDateTimeToTimestamp($parameter . ' 00:00:00');
+                    $todate = Date::shamsiDateTimeToTimestamp($parameter . ' 23:59:59');
+                    $query = $query->whereBetween('created_at', [$fromdate, $todate]);
+                    $query = $query->orWhereBetween('updated_at', [$fromdate, $todate]);
+
+                } else {
+                    foreach ($fields as $field) {
+                        if (in_array($field, ['created_at', 'updated_at', 'active'])) continue;
+                        $query = $query->orwhere($field, 'like',  '%' . $parameter .'%');
+                    }
+                }
+
+                /* check status */
+                if (isset($request->status) && $request->status == "active") $query = $query->active();
+
+                /* return result to view */
+                return view($this->parent['path'] . '.' . $this->modulename['en'] . '.list', array(
+                    'modulename' => $this->modulename,
+                    'title' => ' فهرست ' . $this->modulename['fa'],
+                    'all' => $query->orderBy('id', 'DESC')->paginate(20),
+                    'search' => true,
+                ));
+            }
+
+            return $this->function_response(400);
+
+        } catch (\Exception $e) {
+            Session::flash('alert', $e->getMessage());
+            return redirect()->back();
+        }
     }
 
     /**

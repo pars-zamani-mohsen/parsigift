@@ -25,6 +25,12 @@ class GiftRequest extends Model
     public static $modulename = array('en' => 'gift_request', 'fa' => 'درخواست هدیه', 'model' => 'GiftRequest');
 
     /**
+     * module fields for select and search
+     * @var string[]
+     */
+    public static $modulefields = array('id', 'gift_id', 'url', 'mobile', 'created_at', 'updated_at');
+
+    /**
      * Get the format for database stored dates.
      *
      * @return string
@@ -89,7 +95,7 @@ class GiftRequest extends Model
      */
     public function fetchAll_paginate($limit)
     {
-        return GiftRequest::select('id', 'gift_id', 'url', 'mobile', 'created_at', 'updated_at')->with(['gift'])->orderBy('id', 'DESC')->paginate($limit);
+        return GiftRequest::select(self::$modulefields)->with(['gift'])->orderBy('id', 'DESC')->paginate($limit);
     }
 
     /**
@@ -101,7 +107,7 @@ class GiftRequest extends Model
      */
     public static function fetch_allTrush_limited_columns(int $limit)
     {
-        return GiftRequest::select('id', 'gift_id', 'url', 'mobile', 'created_at', 'updated_at')->onlyTrashed()->paginate($limit);
+        return GiftRequest::select('id', 'gift_id as title', 'created_at', 'updated_at')->onlyTrashed()->paginate($limit);
     }
 
     /**
@@ -110,7 +116,7 @@ class GiftRequest extends Model
      */
     public static function fetchAll_active_limited_columns()
     {
-        return GiftRequest::select('id', 'gift_id', 'url', 'mobile', 'created_at')->active()->get();
+        return GiftRequest::select(self::$modulefields)->active()->get();
     }
 
     /**
