@@ -8,6 +8,7 @@
             <th>ID</th>
             <th>نام</th>
             <th>تلفن همراه</th>
+            <th>نقش</th>
             <th>آخرین ویرایش</th>
             <th>ایجاد شده توسط</th>
             <th>عملیات</th>
@@ -21,6 +22,7 @@
                     <td>#{{ $item['id'] }}</td>
                     <td><a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $modulename['en'] . '/' . $item['id'] .'/edit') }}">{{ \Illuminate\Support\Str::limit(strip_tags($item['name']), 100) }}</a></td>
                     <td>{{ $item['tell'] }}</td>
+                    <td>{{ $item['role'] }}</td>
                     <td dir="ltr" class="text-start">{{ App\AdditionalClasses\Date::timestampToShamsiDatetime($item['updated_at']) }}</td>
                     <td>{{ $item['publisher']['name'] ?? '' }}</td>
                     <td>

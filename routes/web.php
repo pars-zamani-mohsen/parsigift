@@ -34,29 +34,31 @@ Route::group(['prefix' => '/_manager', 'middleware' => 'auth'], function(){
     Route::get('/dashboard', 'HomeController@index')->name('Dashboard');
 
     // Gift
-    Route::resource('/gift', 'GiftController');
-    Route::get('gift/{id}/delete', 'GiftController@destroy')->name('Gift.destroy');
-    Route::get('gift/{id}/activation', 'GiftController@activation')->name('Gift.activation');
+    Route::resource('/gift', 'GiftController')->middleware('userlimit');
+    Route::get('gift/{id}/delete', 'GiftController@destroy')->name('Gift.destroy')->middleware('userlimit');
+    Route::get('gift/{id}/activation', 'GiftController@activation')->name('Gift.activation')->middleware('userlimit');
     Route::get('gift/{id}/history', 'GiftController@getHistory')->name('Gift.history');
+    Route::get('gift/module/search', 'GiftController@search')->name('Gift.search');
 
     // GiftRequest
-    Route::get('/gift_request', 'GiftRequestController@index');
-    Route::get('gift_request/{id}/delete', 'GiftRequestController@destroy')->name('GiftRequest.destroy');
+    Route::get('/gift_request', 'GiftRequestController@index')->middleware('userlimit');
+    Route::get('gift_request/{id}/delete', 'GiftRequestController@destroy')->name('GiftRequest.destroy')->middleware('userlimit');
     Route::get('gift_request/{id}/history', 'GiftRequestController@getHistory')->name('GiftRequest.history');
     Route::get('gift_request/module/search', 'GiftRequestController@search')->name('GiftRequest.search');
 
     // User
-    Route::resource('/user', 'UserController');
-    Route::get('user/{id}/delete', 'UserController@destroy')->name('User.destroy');
+    Route::resource('/user', 'UserController')->middleware('userlimit');
+    Route::get('user/{id}/delete', 'UserController@destroy')->name('User.destroy')->middleware('userlimit');
     Route::get('user/{id}/history', 'UserController@getHistory')->name('User.history');
+    Route::get('user/module/search', 'UserController@search')->name('User.search');
 
     // ActivityLog
-    Route::resource('/activitylog', 'ActivityLogController');
-    Route::get('activitylog/{id}/delete', 'ActivityLogController@destroy')->name('ActivityLog.destroy');
+    Route::resource('/activitylog', 'ActivityLogController')->middleware('userlimit');
+    Route::get('activitylog/{id}/delete', 'ActivityLogController@destroy')->name('ActivityLog.destroy')->middleware('userlimit');
 
     // Recycle bin
-    Route::get('recyclebin', 'RecyclebinController@index')->name('Recyclebin.index');
-    Route::get('recyclebin/{id}', 'RecyclebinController@list')->name('Recyclebin.list');
-    Route::get('recyclebin/{model}/{id}/delete', 'RecyclebinController@delete')->name('Recyclebin.destroy');
-    Route::get('recyclebin/{model}/{id}/restore', 'RecyclebinController@restore')->name('Recyclebin.restore');
+    Route::get('recyclebin', 'RecyclebinController@index')->name('Recyclebin.index')->middleware('userlimit');
+    Route::get('recyclebin/{id}', 'RecyclebinController@list')->name('Recyclebin.list')->middleware('userlimit');
+    Route::get('recyclebin/{model}/{id}/delete', 'RecyclebinController@delete')->name('Recyclebin.destroy')->middleware('userlimit');
+    Route::get('recyclebin/{model}/{id}/restore', 'RecyclebinController@restore')->name('Recyclebin.restore')->middleware('userlimit');
 });

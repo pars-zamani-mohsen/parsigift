@@ -25,6 +25,12 @@ class Gift extends Model
     public static $modulename = array('en' => 'gift', 'fa' => 'هدیه ها', 'model' => 'Gift');
 
     /**
+     * module fields for select and search
+     * @var string[]
+     */
+    public static $modulefields = array('id', 'title', 'amount', 'qty', 'active', 'created_at', 'updated_at', 'created_by');
+
+    /**
      * Get the format for database stored dates.
      *
      * @return string
@@ -89,7 +95,7 @@ class Gift extends Model
      */
     public function fetchAll_paginate($limit)
     {
-        return Gift::select('id', 'title', 'amount', 'qty', 'active', 'created_at', 'created_by')->with(['publisher'])->orderBy('id', 'DESC')->paginate($limit);
+        return Gift::select(self::$modulefields)->with(['publisher'])->orderBy('id', 'DESC')->paginate($limit);
     }
 
     /**
@@ -110,7 +116,7 @@ class Gift extends Model
      */
     public static function fetchAll_active_limited_columns()
     {
-        return Gift::select('id', 'title', 'amount', 'qty', 'active', 'created_at', 'created_by')->active()->get();
+        return Gift::select(self::$modulefields)->active()->get();
     }
 
     /**

@@ -40,6 +40,7 @@ class UserController extends BaseController
 
         $this->instance->name = $request->name;
         $this->instance->tell = $request->tell;
+        $this->instance->role = $request->role;
         $this->instance->password = bcrypt($request->password);
         $this->instance->created_by = (Auth::user()) ? Auth::id() : 1;
         $result = $this->instance->save();
@@ -73,6 +74,7 @@ class UserController extends BaseController
             /* Edit user */
             $instance->name = $request->name;
             $instance->tell = $request->tell;
+            $instance->role = $request->role;
             if ($request->password) $instance->password = bcrypt($request->password);
             $result = $instance->save();
 

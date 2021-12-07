@@ -65,6 +65,16 @@
                                         </div>
                                     @endif
 
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="role">نقش <i class="new-user-req text-danger"> * </i> </label>
+                                            <select name="role" id="role" class="form-select" required>
+                                                    <option value="admin" @if(isset($This) && $This['role'] == 'admin' || old('role') == 'admin') selected @endif>Admin</option>
+                                                    <option value="user" @if(isset($This) && $This['role'] == 'user' || old('role') == 'user') selected @endif>User</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
 
                                     <div class="row col-12 d-flex justify-content-end mt-5">
                                         <div class="col-xxl-2 col-md-2 col-12">

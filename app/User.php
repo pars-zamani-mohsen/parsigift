@@ -2,11 +2,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Controllers\ActivityLogController;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -26,6 +26,12 @@ class User extends Authenticatable
      * @var string[]
      */
     public static $modulename = array('en' => 'user', 'fa' => 'کاربر ها', 'model' => 'User');
+
+    /**
+     * module fields for select and search
+     * @var string[]
+     */
+    public static $modulefields = array('id', 'name', 'tell', 'active', 'role', 'created_at', 'updated_at', 'created_by');
 
     /**
      * Get the format for database stored dates.
@@ -138,7 +144,7 @@ class User extends Authenticatable
      */
     public function fetchAll()
     {
-        return User::all();
+        return User::orderBy('id', 'DESC')->get();
     }
 
     /**
@@ -149,7 +155,7 @@ class User extends Authenticatable
      */
     public function fetchAll_paginate($limit)
     {
-        return User::with(['publisher'])->paginate($limit);
+        return User::with(['publisher'])->orderBy('id', 'DESC')->paginate($limit);
     }
 
     /**
@@ -158,7 +164,7 @@ class User extends Authenticatable
      */
     public static function fetchAll_active()
     {
-        return User::active()->get();
+        return User::active()->orderBy('id', 'DESC')->get();
     }
 
     /**

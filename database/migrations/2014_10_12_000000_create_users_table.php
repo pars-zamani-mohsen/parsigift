@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('tell')->unique();
             $table->string('password');
             $table->rememberToken();
+            $table->enum('role', ['admin', 'user'])->default('user');
             $table->boolean('active')->default(0);
             $table->integer('created_at')->nullable();
             $table->integer('updated_at')->nullable();
