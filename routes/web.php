@@ -56,6 +56,7 @@ Route::group(['prefix' => '/_manager', 'middleware' => 'auth'], function(){
     // User
     Route::resource('/user', 'UserController')->middleware('userlimit');
     Route::get('user/{id}/delete', 'UserController@destroy')->name('User.destroy')->middleware('userlimit');
+    Route::get('user/{id}/activation', 'UserController@activation')->name('User.activation')->middleware('userlimit');
     Route::get('user/{id}/history', 'UserController@getHistory')->name('User.history');
     Route::get('user/module/search', 'UserController@search')->name('User.search');
 

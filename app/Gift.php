@@ -22,7 +22,7 @@ class Gift extends Model
      * The model information
      * @var string[]
      */
-    public static $modulename = array('en' => 'gift', 'fa' => 'هدیه ها', 'model' => 'Gift');
+    public static $modulename = array('en' => 'gift', 'fa' => 'هدیه', 'model' => 'Gift');
 
     /**
      * module fields for select and search

@@ -65,15 +65,53 @@
                                         </div>
                                     @endif
 
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group">
-                                            <label for="role">نقش <i class="new-user-req text-danger"> * </i> </label>
-                                            <select name="role" id="role" class="form-select" required>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="role">نقش <i class="new-user-req text-danger"> * </i> </label>
+                                                <select name="role" id="role" class="form-select" required>
                                                     <option value="admin" @if(isset($This) && $This['role'] == 'admin' || old('role') == 'admin') selected @endif>Admin</option>
                                                     <option value="user" @if(isset($This) && $This['role'] == 'user' || old('role') == 'user') selected @endif>User</option>
-                                            </select>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="cart_number">شماره کارت<i class="text-danger"> * </i></label>
+                                                <input type="text" id="cart_number" class="form-control" name="cart_number" required maxlength="16" pattern="\d*"
+                                                       value="{{ ((isset($This) && $This->cart_number)) ? $This->cart_number : old('cart_number') }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="nesbat">نسبت</label>
+                                                <input type="text" id="nesbat" class="form-control" name="nesbat"
+                                                       value="{{ ((isset($This) && $This->nesbat)) ? $This->nesbat : old('nesbat') }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12">
+                                            <label class="invisible">-</label>
+                                            <div class="form-check">
+                                                <div class="custom-control custom-checkbox">
+                                                    <label class="form-check-label" for="r_and_d_check">تایید R&D</label>
+                                                    <input type="checkbox" class="form-check-input form-check-info" name="r_and_d_check" id="r_and_d_check"
+                                                           @if(isset($This) && $This->r_and_d_check) checked @endif>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12">
+                                            <label class="invisible">-</label>
+                                            <div class="form-check">
+                                                <div class="custom-control custom-checkbox">
+                                                    <label class="form-check-label" for="active">فعال</label>
+                                                    <input type="checkbox" class="form-check-input form-check-info" name="active" id="active"
+                                                           @if(isset($This) && !$This->active) @else checked @endif>
+                                                </div>
+                                            </div>
+                                        </div>
 
 
                                     <div class="row col-12 d-flex justify-content-end mt-5">

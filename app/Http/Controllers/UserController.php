@@ -41,7 +41,12 @@ class UserController extends BaseController
         $this->instance->name = $request->name;
         $this->instance->tell = $request->tell;
         $this->instance->role = $request->role;
+        $this->instance->nesbat = $request->nesbat;
+        $this->instance->cart_number = $request->cart_number;
+        $this->instance->r_and_d_check = $request->r_and_d_check;
         $this->instance->password = bcrypt($request->password);
+        $this->instance->r_and_d_check = (isset($request->r_and_d_check) && $request->r_and_d_check == 'on') ? 1 : 0;
+        $this->instance->active = (isset($request->active) && $request->active == 'on') ? 1 : 0;
         $this->instance->created_by = (Auth::user()) ? Auth::id() : 1;
         $result = $this->instance->save();
 
@@ -75,6 +80,10 @@ class UserController extends BaseController
             $instance->name = $request->name;
             $instance->tell = $request->tell;
             $instance->role = $request->role;
+            $instance->nesbat = $request->nesbat;
+            $instance->cart_number = $request->cart_number;
+            $instance->r_and_d_check = (isset($request->r_and_d_check) && $request->r_and_d_check == 'on') ? 1 : 0;
+            $instance->active = (isset($request->active) && $request->active == 'on') ? 1 : 0;
             if ($request->password) $instance->password = bcrypt($request->password);
             $result = $instance->save();
 

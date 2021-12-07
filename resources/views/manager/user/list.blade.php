@@ -8,7 +8,10 @@
             <th>ID</th>
             <th>نام</th>
             <th>تلفن همراه</th>
+            <th>شماره کارت</th>
+            <th>تایید R&D</th>
             <th>نقش</th>
+            <th>وضعیت</th>
             <th>آخرین ویرایش</th>
             <th>ایجاد شده توسط</th>
             <th>عملیات</th>
@@ -22,12 +25,20 @@
                     <td>#{{ $item['id'] }}</td>
                     <td><a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $modulename['en'] . '/' . $item['id'] .'/edit') }}">{{ \Illuminate\Support\Str::limit(strip_tags($item['name']), 100) }}</a></td>
                     <td>{{ $item['tell'] }}</td>
+                    <td>{{ $item['cart_number'] }}</td>
+                    <td class="@if($item['r_and_d_check']) text-success @else text-danger @endif">
+                        {{ ($item['r_and_d_check']) ? 'فعال' : 'غیر فعال' }}
+                    </td>
                     <td>{{ $item['role'] }}</td>
+                    <td class="@if($item['active']) text-success @else text-danger @endif">
+                        {{ ($item['active']) ? 'فعال' : 'غیر فعال' }}
+                    </td>
                     <td dir="ltr" class="text-start">{{ App\AdditionalClasses\Date::timestampToShamsiDatetime($item['updated_at']) }}</td>
-                    <td>{{ $item['publisher']['name'] ?? '' }}</td>
+                    <td>#{{ $item['publisher']['id'] }}-{{ $item['publisher']['name'] }}</td>
                     <td>
                         <a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $modulename['en'] . '/' . $item['id'] . '/edit') }}" title="ویرایش "> <i class="bi bi-pencil-square"></i> </a>
                         <a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $modulename['en'] . '/' . $item['id'] . '/history') }}" title="تاریخجه"> <i class="bi bi-clock-history text-info"></i> </a>
+                        <a class="_deactive" href="#"> <i class="bi bi-lightbulb-off text-warning" data-url="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $modulename['en'] . '/' . $item['id'] . '/activation') }}" title="فعال/غیر فعال"></i> </a>
                         <a class="_delete" href="#"> <i class="bi bi-trash text-danger" data-url="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $modulename['en'] . '/' . $item['id'] . '/delete') }}" title="حذف"></i> </a>
                     </td>
                 </tr>

@@ -25,13 +25,13 @@ class User extends Authenticatable
      * The model information
      * @var string[]
      */
-    public static $modulename = array('en' => 'user', 'fa' => 'کاربر ها', 'model' => 'User');
+    public static $modulename = array('en' => 'user', 'fa' => 'کاربر', 'model' => 'User');
 
     /**
      * module fields for select and search
      * @var string[]
      */
-    public static $modulefields = array('id', 'name', 'tell', 'active', 'role', 'created_at', 'updated_at', 'created_by');
+    public static $modulefields = array('id', 'name', 'tell', 'cart_number', 'active', 'role', 'created_at', 'updated_at', 'created_by');
 
     /**
      * Get the format for database stored dates.
