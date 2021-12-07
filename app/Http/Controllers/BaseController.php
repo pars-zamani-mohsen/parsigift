@@ -37,7 +37,7 @@ class BaseController extends Controller
         try {
             return view($this->parent['path'] . '.' . $this->modulename['en'] . '.list', array(
                 'modulename' => $this->modulename,
-                'title' => ' فهرست ' . $this->modulename['fa'] . ' ها',
+                'title' => ' فهرست ' . $this->modulename['fa'],
                 'all' => $this->instance->fetchAll_paginate(20),
                 'search' => true,
             ));

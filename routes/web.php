@@ -53,6 +53,10 @@ Route::group(['prefix' => '/_manager', 'middleware' => 'auth'], function(){
     Route::get('query/{id}/history', 'QueryController@getHistory')->name('Query.history');
     Route::get('query/module/search', 'QueryController@search')->name('Query.search');
 
+    // DailyQuery
+    Route::get('/dailyQuery', 'DailyQueryController@index');
+    Route::get('dailyQuery/module/search', 'DailyQueryController@search')->name('DailyQuery.search');
+
     // User
     Route::resource('/user', 'UserController')->middleware('userlimit');
     Route::get('user/{id}/delete', 'UserController@destroy')->name('User.destroy')->middleware('userlimit');

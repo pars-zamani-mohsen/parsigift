@@ -35,6 +35,8 @@ class Recyclebin extends Model
             \App\User::$modulename['model'] => \App\User::$modulename['fa'],
             \App\Gift::$modulename['model'] => \App\Gift::$modulename['fa'],
             \App\GiftRequest::$modulename['model'] => \App\GiftRequest::$modulename['fa'],
+            \App\Query::$modulename['model'] => \App\Query::$modulename['fa'],
+            \App\DailyQuery::$modulename['model'] => \App\DailyQuery::$modulename['fa'],
         );
     }
 }

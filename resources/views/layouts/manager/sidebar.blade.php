@@ -23,6 +23,14 @@
                     </a>
                 </li>
 
+                @php $moduleModel = '\App\DailyQuery'; $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
+                <li class="sidebar-item" data-url="{{ $url }}">
+                    <a href="{{ url($url) }}" class='sidebar-link'>
+                        <i class="bi bi-list-check"></i>
+                        <span>{{ $moduleModel::$modulename['fa'] }}</span>
+                    </a>
+                </li>
+
                 @if(Auth::user()->role == 'admin')
                     @php $moduleModel = '\App\Gift'; $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
                     <li class="sidebar-item" data-url="{{ $url }}">
