@@ -37,7 +37,7 @@ class BaseController extends Controller
         try {
             return view($this->parent['path'] . '.' . $this->modulename['en'] . '.list', array(
                 'modulename' => $this->modulename,
-                'title' => ' فهرست ' . $this->modulename['fa'],
+                'title' => ' فهرست ' . $this->modulename['fa'] . ' ها',
                 'all' => $this->instance->fetchAll_paginate(20),
                 'search' => true,
             ));
@@ -138,7 +138,7 @@ class BaseController extends Controller
     public function update(Request $request, $id)
     {
         $validate_data = array(
-            'title' => ['required', 'string']
+            'title' => ['required', 'string'],
         );
         $this->validate($request, $validate_data);
 

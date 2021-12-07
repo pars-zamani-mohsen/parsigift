@@ -31,10 +31,19 @@
                             <span>{{ $moduleModel::$modulename['fa'] }}</span>
                         </a>
                     </li>
+
                     @php $moduleModel = '\App\GiftRequest'; $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
                     <li class="sidebar-item" data-url="{{ $url }}">
                         <a href="{{ url($url) }}" class='sidebar-link'>
                             <i class="bi bi-signpost-2"></i>
+                            <span>{{ $moduleModel::$modulename['fa'] }}</span>
+                        </a>
+                    </li>
+
+                    @php $moduleModel = '\App\Query'; $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
+                    <li class="sidebar-item" data-url="{{ $url }}">
+                        <a href="{{ url($url) }}" class='sidebar-link'>
+                            <i class="bi bi-text-right"></i>
                             <span>{{ $moduleModel::$modulename['fa'] }}</span>
                         </a>
                     </li>

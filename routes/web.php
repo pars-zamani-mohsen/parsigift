@@ -46,6 +46,13 @@ Route::group(['prefix' => '/_manager', 'middleware' => 'auth'], function(){
     Route::get('gift_request/{id}/history', 'GiftRequestController@getHistory')->name('GiftRequest.history');
     Route::get('gift_request/module/search', 'GiftRequestController@search')->name('GiftRequest.search');
 
+    // query
+    Route::resource('/query', 'QueryController')->middleware('userlimit');
+    Route::get('query/{id}/delete', 'QueryController@destroy')->name('Query.destroy')->middleware('userlimit');
+    Route::get('query/{id}/activation', 'QueryController@activation')->name('Query.activation')->middleware('userlimit');
+    Route::get('query/{id}/history', 'QueryController@getHistory')->name('Query.history');
+    Route::get('query/module/search', 'QueryController@search')->name('Query.search');
+
     // User
     Route::resource('/user', 'UserController')->middleware('userlimit');
     Route::get('user/{id}/delete', 'UserController@destroy')->name('User.destroy')->middleware('userlimit');
