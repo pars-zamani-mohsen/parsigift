@@ -31,22 +31,15 @@
                     </a>
                 </li>
 
-                @if(Auth::user()->role == 'admin')
-                    @php $moduleModel = '\App\Gift'; $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
-                    <li class="sidebar-item" data-url="{{ $url }}">
-                        <a href="{{ url($url) }}" class='sidebar-link'>
-                            <i class="bi bi-gift"></i>
-                            <span>{{ $moduleModel::$modulename['fa'] }}</span>
-                        </a>
-                    </li>
+                @php $moduleModel = '\App\DailyGift'; $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
+                <li class="sidebar-item" data-url="{{ $url }}">
+                    <a href="{{ url($url) }}" class='sidebar-link'>
+                        <i class="bi bi-gift"></i>
+                        <span>{{ $moduleModel::$modulename['fa'] }}</span>
+                    </a>
+                </li>
 
-                    @php $moduleModel = '\App\GiftRequest'; $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
-                    <li class="sidebar-item" data-url="{{ $url }}">
-                        <a href="{{ url($url) }}" class='sidebar-link'>
-                            <i class="bi bi-signpost-2"></i>
-                            <span>{{ $moduleModel::$modulename['fa'] }}</span>
-                        </a>
-                    </li>
+                @if(Auth::user()->role == 'admin')
 
                     @php $moduleModel = '\App\Query'; $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
                     <li class="sidebar-item" data-url="{{ $url }}">
@@ -62,6 +55,21 @@
                             <span>تنظیمات</span>
                         </a>
                         <ul class="submenu">
+                            @php $moduleModel = '\App\Gift'; $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
+                            <li class="submenu-item" data-url="{{ $url }}">
+                                <a href="{{ url($url) }}">
+                                    <i class="bi bi-gift"></i>
+                                    <span>{{ $moduleModel::$modulename['fa'] }}</span>
+                                </a>
+                            </li>
+
+                            @php $moduleModel = '\App\GiftRequest'; $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
+                            <li class="submenu-item" data-url="{{ $url }}">
+                                <a href="{{ url($url) }}">
+                                    <i class="bi bi-signpost-2"></i>
+                                    <span>{{ $moduleModel::$modulename['fa'] }}</span>
+                                </a>
+                            </li>
 
                             @php  $moduleModel = '\App\User';  $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
                             <li class="submenu-item" data-url="{{ $url }}">

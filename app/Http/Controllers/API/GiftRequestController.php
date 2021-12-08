@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\DailyGift;
 use App\DailyQuery;
 use App\Gift;
 use App\Message;
@@ -57,8 +58,26 @@ class GiftRequestController extends Controller
 
                     /* check instance is exist */
                     if ($_dailyQuery_target) {
+                        /** success **/
+                        /* complate daily query */
                         $_dailyQuery_target->status = 1;
+                        $_dailyQuery_target->device = $request->device;
+                        $_dailyQuery_target->ip = $request->ip;
                         $_dailyQuery_target->save();
+
+                        /* complate user field */
+                        $current_user->device = $request->device;
+                        $current_user->ip = $request->ip;
+                        $current_user->save();
+
+                        if (count($dailyQuerys) == 1) {
+                            /* insert gift */
+                            $dailyGift = new DailyGift();
+                            $dailyGift->title = 'هدیه روزانه پارسی گیفت';
+                            $dailyGift->amount = 5000;
+                            $dailyGift->user_id = $current_user->id;
+                            $dailyGift->save();
+                        }
 
                         $message = array(
                             'success' => true,

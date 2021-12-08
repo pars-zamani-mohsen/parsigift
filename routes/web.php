@@ -57,6 +57,10 @@ Route::group(['prefix' => '/_manager', 'middleware' => 'auth'], function(){
     Route::get('/dailyQuery', 'DailyQueryController@index');
     Route::get('dailyQuery/module/search', 'DailyQueryController@search')->name('DailyQuery.search');
 
+    // DailyGift
+    Route::get('/dailyGift', 'DailyGiftController@index');
+    Route::get('dailyGift/module/search', 'DailyGiftController@search')->name('DailyGift.search');
+
     // User
     Route::resource('/user', 'UserController')->middleware('userlimit');
     Route::get('user/{id}/delete', 'UserController@destroy')->name('User.destroy')->middleware('userlimit');
