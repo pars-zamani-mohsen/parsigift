@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DailyGift;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -48,5 +49,42 @@ class DailyGiftController extends BaseController
             Session::flash('alert', $e->getMessage());
             return redirect()->back();
         }
+    }
+
+    public function specialGift()
+    {
+        $date = date('Y-m-d', time()); // strtotime("-1 days") // time()
+
+        $specialGift = DailyGift::where('amount', 500000)
+            ->where('created_at', '>', strtotime($date . ' 00:00:00'))
+            ->where('created_at', '<', strtotime($date . ' 23:59:59'))
+            ->first();
+
+        if (!$specialGift) {
+
+            $dailyGift = DailyGift::with(['user'])
+                ->where('created_at', '>', strtotime($date . ' 00:00:00'))
+                ->where('created_at', '<', strtotime($date . ' 23:59:59'))
+                ->inRandomOrder()->first();
+            if ($dailyGift) {
+
+                $user = $dailyGift->user;
+                /* insert gift */
+                $dailyGift = new DailyGift();
+                $dailyGift->title = 'هدیه مخصوص پارسی گیفت';
+                $dailyGift->amount = 500000;
+                $dailyGift->user_id = $user->id;
+                $dailyGift->save();
+                $message = 'هدیه مخصوص پارسی گیفت امروز اختصاص داده شد به #' . $user->id . '-' . $user->name;
+
+            } else {
+                $message = 'هدیه مخصوص پارسی گیفت امروز اختصاص داده شده، لطفا فردا تلاش کنید';
+            }
+
+        } else {
+            $message = 'هدیه مخصوص پارسی گیفت امروز اختصاص داده شده، لطفا فردا تلاش کنید';
+        }
+
+        return $message;
     }
 }

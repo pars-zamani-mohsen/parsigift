@@ -51,7 +51,7 @@ class GiftRequestController extends Controller
                     $_dailyQuery_target = false;
                     foreach ($dailyQuerys as $_dailyQuery) {
                         /* check url and get instance */
-                        if (strpos($request->url, $_dailyQuery->_query->url) !== false){
+                        if (strpos($request->url, $_dailyQuery->_query->url) !== false) {
                             $_dailyQuery_target = $_dailyQuery;
                         }
                     }
@@ -71,7 +71,7 @@ class GiftRequestController extends Controller
                         $current_user->save();
 
                         if (count($dailyQuerys) == 1) {
-                            /* insert gift */
+                            /* insert special gift */
                             $dailyGift = new DailyGift();
                             $dailyGift->title = 'هدیه روزانه پارسی گیفت';
                             $dailyGift->amount = 5000;
@@ -128,56 +128,5 @@ class GiftRequestController extends Controller
         }
 
         return response()->json($message, 201);
-    }
-
-    public function old_store(Request $request)
-    {
-        $validate_data = array(
-            'url' => ['required', 'string'],
-            'mobile' => ['required', 'string', new Mobile()],
-        );
-        $this->validate($request, $validate_data);
-
-        $waiting = 3;
-        $created_at = strtotime("-$waiting minutes", time());
-        $checker = GiftRequest::select('id')->where('mobile', $request->mobile)->where('created_at', '>=', $created_at)->first();
-
-        if (!$checker) {
-            $gift = Gift::active()->inRandomOrder()->first();
-
-            if ($gift) {
-                $instance = new GiftRequest();
-                $instance->gift_id = $gift->id;
-                $instance->url = $request->url;
-                $instance->mobile = $request->mobile;
-                $result = $instance->save();
-
-                if ($result) {
-                    /* deactive gift */
-                    $gift->active = 0;
-                    $gift->save();
-
-                    /* initialize message */
-                    $message = "سلام همکار عزیز" . "\n";
-                    $message .= "هدیه شما: ";
-
-                    if ($gift->qty) $message .= $gift->qty . " ";
-                    $message .= $gift->title;
-                    if ($gift->amount) $message .= " به ارزش " . $gift->amount . " تومان ";
-
-                    $message .= "\n" . "با سپاس از همراهی شما";
-
-                    /* send message */
-                    Message::send_simple_sms(Message::getSmsSenderNumber(), [$request->mobile], $message);
-                    return response()->json(array('success' => true), 201);
-                }
-            } else {
-                $message = "جوایز به اتمام رسید";
-            }
-        } else {
-            $message = "ثبت تکراری در بازه $waiting دقیقه";
-        }
-
-        return response()->json(array('success' => false, 'errors' => array($message ?? 'خطا در ثبت اطلاعات')), 201);
     }
 }

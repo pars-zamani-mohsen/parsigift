@@ -26,8 +26,8 @@
                                         </div>
                                     </div>
                                     <div class="col-md-8">
-                                        <h6 class="text-muted font-semibold">تعداد کل هدیه ها</h6>
-                                        <h6 class="font-extrabold mb-0">{{ $gift ?? 0 }}</h6>
+                                        <h6 class="text-muted font-semibold">تعداد کل هدیه های من</h6>
+                                        <h6 class="font-extrabold mb-0">{{ $dailyGift ?? 0 }}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -43,8 +43,8 @@
                                         </div>
                                     </div>
                                     <div class="col-md-8">
-                                        <h6 class="text-muted font-semibold">تعداد کل درخواست ها</h6>
-                                        <h6 class="font-extrabold mb-0">{{ $request ?? 0 }}</h6>
+                                        <h6 class="text-muted font-semibold">تعداد جستجو های در حال انتظار امروز</h6>
+                                        <h6 class="font-extrabold mb-0">{{ $pending_dailyQuery ?? 0 }}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -100,20 +100,22 @@
                                         <thead>
                                         <tr>
                                             <th>شماره</th>
-                                            <th>هدیه</th>
-                                            <th>آدرس</th>
-                                            <th>موبایل</th>
+                                            <th>کاربر</th>
+                                            <th>کوئری</th>
+                                            <th>وضعیت</th>
                                             <th>تاریخ ثبت</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                            @if(isset($gift_request) && count($gift_request))
-                                                @foreach($gift_request as $item)
+                                            @if(isset($dailyQuery) && count($dailyQuery))
+                                                @foreach($dailyQuery as $item)
                                                     <tr class="text-center">
-                                                        <td><a href="{{ url(\App\Http\Controllers\HomeController::fetch_manager_pre_url() . "/gift_request/".$item['id']."/edit") }}">#{{ $item['id'] }}</a></td>
-                                                        <td><a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() . '/gift/' . $item['gift_id'] . '/edit') }}">#{{ $item['gift_id'] }}-{{ $item->gift->title ?? '' }}</a></td>
-                                                        <td>{{ $item['url'] }}</td>
-                                                        <td>{{ $item['mobile'] }}</td>
+                                                        <td>#{{ $item['id'] }}</td>
+                                                        <td><a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() . '/user/' . $item['user_id'] . '/edit') }}">#{{ $item['user_id'] }}-{{ $item->user->name ?? '' }}</a></td>
+                                                        <td><a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() . '/query/' . $item['query_id'] . '/edit') }}">#{{ $item['query_id'] }}-{{ $item->_query->title ?? '' }}</a></td>
+                                                        <td class="@if($item['status']) text-success @else text-danger @endif">
+                                                            {{ ($item['status']) ? 'تکمیل شد' : 'تکمیل نشده' }}
+                                                        </td>
                                                         <td>{{ App\AdditionalClasses\Date::timestampToShamsiDatetime($item['created_at']) }}</td>
                                                     </tr>
                                                 @endforeach

@@ -23,7 +23,8 @@ Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name(
 /* Clear laravel cache */
 Route::get('/cc', 'UserController@clear');
 
-Route::get('/_auto', 'GiftController@autoInsertGift');
+//Route::get('/_auto', 'GiftController@autoInsertGift');
+Route::get('dailyGift/gift/special', 'DailyGiftController@specialGift')->name('DailyGift.specialGift');
 
 
 /**

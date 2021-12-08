@@ -20,7 +20,7 @@
                 <tr>
                     <td>#{{ $item['id'] }}</td>
                     <td><a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $modulename['en'] . '/' . $item['id'] .'/edit') }}">{{ \Illuminate\Support\Str::limit(strip_tags($item['title']), 100) }}</a></td>
-                    <td>{{ $item['url'] }}</td>
+                    <td dir="ltr">{{ urldecode($item['url']) }}</td>
                     <td class="@if($item['active']) text-success @else text-danger @endif">
                         {{ ($item['active']) ? 'فعال' : 'غیر فعال' }}
                     </td>

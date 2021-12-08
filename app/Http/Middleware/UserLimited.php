@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class UserLimited
 {
@@ -16,7 +17,9 @@ class UserLimited
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user()->role != 'admin') abort(403, 'You do not have permission to perform this operation');
+        if (Auth::user()->role != 'admin') {
+            return redirect()->back()->withErrors(["خطای 403، شما اجازه دسترسی به این قسمت را ندارید."]);
+        }
         return $next($request);
     }
 }

@@ -10,6 +10,7 @@
             <th>URL</th>
             <th>وضعیت</th>
             <th>تاریخ ثبت</th>
+            <th>عملیات</th>
         </tr>
         </thead>
         <tbody>
@@ -20,11 +21,15 @@
                     <td>#{{ $item['id'] }}</td>
                     <td>@if($item['user']['id'])<a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/user/' . $item['user']['id'] .'/edit') }}" target="_blank">#{{ $item['user']['id'] }}-{{ $item['user']['name'] }}</a>@endif</td>
                     <td>@if($item['_query']['id'])<a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/query/' . $item['_query']['id'] .'/edit') }}" target="_blank">#{{ $item['_query']['id'] }}-{{ $item['_query']['title'] }}</a>@endif</td>
-                    <td>@if($item['_query']['id'])<a href="{{ $item['_query']['url'] }}" target="_blank">{{ $item['_query']['url'] }}</a>@endif</td>
+                    <td dir="ltr">@if($item['_query']['id'])<a href="{{ $item['_query']['url'] }}" target="_blank">{{ urldecode($item['_query']['url']) }}</a>@endif</td>
                     <td class="@if($item['status']) text-success @else text-danger @endif">
                         {{ ($item['status']) ? 'تکمیل شد' : 'تکمیل نشده' }}
                     </td>
                     <td dir="ltr" class="text-start">{{ App\AdditionalClasses\Date::timestampToShamsiDatetime($item['updated_at']) }}</td>
+                    <td>
+                        @php $title = $item['_query']['title']; @endphp
+                        <a class="" href="#" onclick="copyTextFunction('{{ $title }}')"> <i class="bi bi-files text-danger" title="کپی متن"></i> </a>
+                    </td>
                 </tr>
             @endforeach
         @else
@@ -42,4 +47,20 @@
 @endsection
 @section('script')
     <script src="{{ asset('manager/assets/js/list.js')}}"></script>
+    <script>
+        function copyTextFunction(copyText) {
+            /* Copy the text inside the text field */
+            navigator.clipboard.writeText(copyText);
+
+            /* Alert the copied text */
+            Toastify({
+                text: ' متن "' + copyText + '" کپی شد. ',
+                duration: 3000,
+                close:true,
+                gravity:"top",
+                position: "center",
+                backgroundColor: "#4fbe87",
+            }).showToast();
+        }
+    </script>
 @endsection

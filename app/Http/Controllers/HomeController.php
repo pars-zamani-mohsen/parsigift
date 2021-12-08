@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DailyGift;
 use App\DailyQuery;
 use App\User;
 use App\Gift;
@@ -30,46 +31,80 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $date = Date('Y-m-d');
         $current_user = Auth::user();
+
         if ($current_user->role == 'user') {
-            $date = Date('Y-m-d');
-            $dailyQuery = DailyQuery::where('user_id' , $current_user->id)
-                ->where('created_at', '>', strtotime($date . ' 00:00:00'))
-                ->where('created_at', '<', strtotime($date . ' 23:59:59'))
-                ->get();
+            $this->registerDailyQuery($current_user, $date);
 
-            if (!count($dailyQuery)) {
-                $querys = Query::active()->inRandomOrder()->limit(10)->get();
-                foreach ($querys as $query) {
-                    $instance = new DailyQuery();
-                    $instance->user_id = $current_user->id;
-                    $instance->query_id = $query->id;
-                    $instance->save();
-                }
-            }
-
-            $dailyQuery = DailyQuery::where('user_id' , $current_user->id)
+            $dailyQueryCount = DailyQuery::where('user_id' , $current_user->id)
                 ->where('created_at', '>', strtotime($date . ' 00:00:00'))
                 ->where('created_at', '<', strtotime($date . ' 23:59:59'))
                 ->where('status', '0')
+                ->count();
+
+            $dailyQuery = DailyQuery::with('_query')
+                ->where('user_id' , $current_user->id)
+                ->where('created_at', '>', strtotime($date . ' 00:00:00'))
+                ->where('created_at', '<', strtotime($date . ' 23:59:59'))
+                ->where('status', '0')
+                ->limit(10)
+                ->orderBy('id', 'Desc')
                 ->get();
             $data = array(
-                'pending_dailyQuery' => count($dailyQuery),
+                'pending_dailyQuery' => $dailyQueryCount,
                 'dailyQuery' => $dailyQuery,
+                'dailyGift' => DailyGift::where('user_id' , $current_user->id)->count(),
                 'users' => User::all()->count(),
+                'current_user' => $current_user,
             );
 
         } else {
-            $GiftRequest = new GiftRequest();
+            $dailyQueryCount = DailyQuery::where('created_at', '>', strtotime($date . ' 00:00:00'))
+                ->where('created_at', '<', strtotime($date . ' 23:59:59'))
+                ->where('status', '0')
+                ->count();
+            $dailyQuery = DailyQuery::with('_query')
+                ->where('created_at', '>', strtotime($date . ' 00:00:00'))
+                ->where('created_at', '<', strtotime($date . ' 23:59:59'))
+                ->where('status', '0')
+                ->limit(10)
+                ->orderBy('id', 'Desc')
+                ->get();
             $data = array(
-                'gift' => Query::all()->count(),
-                'request' => GiftRequest::all()->count(),
+                'pending_dailyQuery' => $dailyQueryCount,
+                'dailyQuery' => $dailyQuery,
+                'dailyGift' => DailyGift::all()->count(),
                 'users' => User::all()->count(),
-                'gift_request' => $GiftRequest->fetchAll_paginate(10),
+                'current_user' => $current_user,
             );
         }
 
         return view('manager.home', $data);
+    }
+
+    /**
+     * register Daily Query
+     *
+     * @param $current_user
+     * @param string $date
+     */
+    public function registerDailyQuery($current_user, string $date)
+    {
+        $dailyQuery = DailyQuery::where('user_id' , $current_user->id)
+            ->where('created_at', '>', strtotime($date . ' 00:00:00'))
+            ->where('created_at', '<', strtotime($date . ' 23:59:59'))
+            ->get();
+
+        if (!count($dailyQuery)) {
+            $querys = Query::active()->inRandomOrder()->limit(10)->get();
+            foreach ($querys as $query) {
+                $instance = new DailyQuery();
+                $instance->user_id = $current_user->id;
+                $instance->query_id = $query->id;
+                $instance->save();
+            }
+        }
     }
 
     /**
