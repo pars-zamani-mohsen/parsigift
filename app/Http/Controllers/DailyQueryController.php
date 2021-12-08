@@ -32,7 +32,7 @@ class DailyQueryController extends BaseController
             return view($this->parent['path'] . '.' . $this->modulename['en'] . '.list', array(
                 'modulename' => $this->modulename,
                 'title' => ' فهرست ' . $this->modulename['fa'],
-                'all' => $this->instance->fetchAll_paginate(20),
+                'all' => $this->instance->fetchAll_paginate(10),
                 'search' => true,
                 'onlylist' => true,
             ));

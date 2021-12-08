@@ -95,7 +95,7 @@ class DailyQuery extends Model
      */
     public function fetchAll_paginate($limit)
     {
-        return DailyQuery::select(self::$modulefields)->with(['user'])->orderBy('id', 'DESC')->paginate($limit);
+        return DailyQuery::select(self::$modulefields)->with(['user', '_query'])->orderBy('id', 'DESC')->paginate($limit);
     }
 
     /**

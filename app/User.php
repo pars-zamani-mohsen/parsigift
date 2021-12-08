@@ -126,6 +126,17 @@ class User extends Authenticatable
         return $query->where('active', 1);
     }
 
+    /**
+     * Check active item
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function scopeRD($query)
+    {
+        return $query->where('r_and_d_check', 1);
+    }
+
     # Popular functions
     /**
      * fetch selected record

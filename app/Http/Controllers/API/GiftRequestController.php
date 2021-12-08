@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
+use App\DailyQuery;
 use App\Gift;
-use App\GiftRequest;
 use App\Message;
+use App\GiftRequest;
 use App\Rules\Mobile;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +25,95 @@ class GiftRequestController extends Controller
     public function store(Request $request)
     {
         $validate_data = array(
+            'ip' => ['required', 'ip'],
+            'url' => ['required', 'string'],
+            'device' => ['required', 'string'],
+            'mobile' => ['required', 'string', new Mobile()],
+        );
+        $this->validate($request, $validate_data);
+
+        $current_user = User::where('tell', $request->mobile)->first();
+        /* check user exsit */
+        if ($current_user) {
+            /* check user active */
+            if ($current_user->active && $current_user->r_and_d_check) {
+                $date = Date('Y-m-d');
+                $dailyQuerys = DailyQuery::with(['_query'])
+                    ->where('status', 0)
+                    ->where('user_id', $current_user->id)
+                    ->where('created_at', '>', strtotime($date . ' 00:00:00'))
+                    ->where('created_at', '<', strtotime($date . ' 23:59:59'))
+                    ->get();
+
+                /* check user has daily query */
+                if (count($dailyQuerys)) {
+                    $_dailyQuery_target = false;
+                    foreach ($dailyQuerys as $_dailyQuery) {
+                        /* check url and get instance */
+                        if (strpos($request->url, $_dailyQuery->_query->url) !== false){
+                            $_dailyQuery_target = $_dailyQuery;
+                        }
+                    }
+
+                    /* check instance is exist */
+                    if ($_dailyQuery_target) {
+                        $_dailyQuery_target->status = 1;
+                        $_dailyQuery_target->save();
+
+                        $message = array(
+                            'success' => true,
+                            'message' => array(
+                                'text' => 'درخواست شما ثبت شد.',
+                                'code' => 200,
+                            )
+                        );
+
+                    } else {
+                        $message = array(
+                            'success' => false,
+                            'message' => array(
+                                'text' => 'آدرس ارسال شده معتبر نیست',
+                                'code' => 104,
+                            )
+                        );
+                    }
+
+                } else {
+                    $message = array(
+                        'success' => false,
+                        'message' => array(
+                            'text' => 'هیچ کوئری فعالی برای امروز وجود ندارد، لطفا وارد پنل خود شده و کوئری ها را بررسی نمایید',
+                            'code' => 103,
+                        )
+                    );
+                }
+
+            } else {
+                $message = array(
+                    'success' => false,
+                    'message' => array(
+                        'text' => 'شماره موبایل وارد شده غیرفعال است',
+                        'code' => 102,
+                    )
+                );
+            }
+
+        } else {
+            $message = array(
+                'success' => false,
+                'message' => array(
+                    'text' => 'شماره موبایل وارد شده ثبت نشده است',
+                    'code' => 101,
+                )
+            );
+        }
+
+        return response()->json($message, 201);
+    }
+
+    public function old_store(Request $request)
+    {
+        $validate_data = array(
             'url' => ['required', 'string'],
             'mobile' => ['required', 'string', new Mobile()],
         );
@@ -30,7 +121,7 @@ class GiftRequestController extends Controller
 
         $waiting = 3;
         $created_at = strtotime("-$waiting minutes", time());
-        $checker = GiftRequest::select('id')->where('mobile', $request->mobile)->where('created_at', '>=' , $created_at)->first();
+        $checker = GiftRequest::select('id')->where('mobile', $request->mobile)->where('created_at', '>=', $created_at)->first();
 
         if (!$checker) {
             $gift = Gift::active()->inRandomOrder()->first();
