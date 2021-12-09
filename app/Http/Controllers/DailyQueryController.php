@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\AdditionalClasses\Date;
 use App\DailyQuery;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class DailyQueryController extends BaseController
@@ -29,11 +30,12 @@ class DailyQueryController extends BaseController
     public function index()
     {
         try {
+            $current_user = Auth::user();
             return view($this->parent['path'] . '.' . $this->modulename['en'] . '.list', array(
                 'modulename' => $this->modulename,
                 'title' => ' فهرست ' . $this->modulename['fa'],
                 'all' => $this->instance->fetchAll_paginate(10),
-                'search' => true,
+                'search' => ($current_user->role == "admin") ? true : false,
                 'onlylist' => true,
             ));
 
@@ -41,5 +43,19 @@ class DailyQueryController extends BaseController
             Session::flash('alert', $e->getMessage());
             return redirect()->back();
         }
+    }
+
+    public function report($date)
+    {
+        $current_user = Auth::user();
+        $todate = date('Y-m-d', Date::shamsiToTimestamp(str_replace('-', '/', $date)));
+        $dailyQuery = DailyQuery::with('_query')
+            ->where('user_id' , $current_user->id)
+            ->where('created_at', '>', strtotime($todate . ' 00:00:00'))
+            ->where('created_at', '<', strtotime($todate . ' 23:59:59'))
+            ->orderBy('id', 'Desc')
+            ->get()->toArray();
+
+        return ($dailyQuery) ? $dailyQuery : null;
     }
 }

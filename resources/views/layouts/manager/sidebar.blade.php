@@ -39,6 +39,22 @@
                     </a>
                 </li>
 
+                @php $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/report'; @endphp
+                <li class="sidebar-item" data-url="{{ $url }}">
+                    <a href="{{ url($url) }}" class='sidebar-link'>
+                        <i class="bi bi-calendar3"></i>
+                        <span>گزارش روزانه</span>
+                    </a>
+                </li>
+
+                @php $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/bigGift'; @endphp
+                <li class="sidebar-item" data-url="{{ $url }}">
+                    <a href="{{ url($url) }}" class='sidebar-link'>
+                        <i class="bi bi-gift-fill"></i>
+                        <span>جایزه بزرگ</span>
+                    </a>
+                </li>
+
                 @if(Auth::user()->role == 'admin')
 
                     @php $moduleModel = '\App\Query'; $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp

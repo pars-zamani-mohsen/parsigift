@@ -31,18 +31,23 @@ class DailyGiftController extends BaseController
     public function index()
     {
         try {
-            if (Auth::user()->role == 'admin') {
+            $current_user = Auth::user();
+            if ($current_user->role == 'admin') {
                 $all = $this->instance->fetchAll_paginate(20);
+                $totalGIft = DailyGift::sum('amount');
             } else {
+                $totalGIft = DailyGift::where('user_id', $current_user->id)->sum('amount');
                 $all = $this->instance->fetchAll_paginate_with_userid(20, Auth::id());
             }
+
 
             return view($this->parent['path'] . '.' . $this->modulename['en'] . '.list', array(
                 'modulename' => $this->modulename,
                 'title' => ' فهرست ' . $this->modulename['fa'],
                 'all' => $all,
+                'totalGIft' => $totalGIft,
+                'search' => ($current_user->role == "admin") ? true : false,
                 'onlylist' => true,
-                'search' => true,
             ));
 
         } catch (\Exception $e) {

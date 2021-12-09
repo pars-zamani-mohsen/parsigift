@@ -9,114 +9,117 @@
 @endsection
 
 @section('content')
+    @php $login_user = \Illuminate\Support\Facades\Auth::user(); @endphp
+
     <div class="page-heading">
         <h3>به سامانه مدیریت <b class="text-primary">{{ config('app.name') }}</b> خوش آمدید</h3>
     </div>
     <div class="page-content">
         <section class="row">
-            <div class="col-12">
-                <div class="row">
-                    <div class="col-6 col-lg-3 col-md-6">
-                        <div class="card">
-                            <div class="card-body px-3 py-4-5">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="dashboard-icon">
-                                            <i class="bi bi-layout-text-sidebar-reverse bg-warning text-white"></i>
+            @if($login_user->role == "admin")
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-6 col-lg-3 col-md-6">
+                            <div class="card">
+                                <div class="card-body px-3 py-4-5">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="dashboard-icon">
+                                                <i class="bi bi-layout-text-sidebar-reverse bg-warning text-white"></i>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <h6 class="text-muted font-semibold">تعداد کل هدیه های من</h6>
-                                        <h6 class="font-extrabold mb-0">{{ $dailyGift ?? 0 }}</h6>
+                                        <div class="col-md-8">
+                                            <h6 class="text-muted font-semibold">تعداد کل هدیه ها </h6>
+                                            <h6 class="font-extrabold mb-0">{{ $dailyGift ?? 0 }}</h6>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-6 col-lg-3 col-md-6">
-                        <div class="card">
-                            <div class="card-body px-3 py-4-5">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="dashboard-icon">
-                                            <i class="bi bi-journal-richtext bg-info text-white"></i>
+                        <div class="col-6 col-lg-3 col-md-6">
+                            <div class="card">
+                                <div class="card-body px-3 py-4-5">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="dashboard-icon">
+                                                <i class="bi bi-journal-richtext bg-info text-white"></i>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <h6 class="text-muted font-semibold">تعداد جستجو های در حال انتظار امروز</h6>
-                                        <h6 class="font-extrabold mb-0">{{ $pending_dailyQuery ?? 0 }}</h6>
+                                        <div class="col-md-8">
+                                            <h6 class="text-muted font-semibold">تعداد جستجو های در حال انتظار امروز</h6>
+                                            <h6 class="font-extrabold mb-0">{{ $pending_dailyQuery ?? 0 }}</h6>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-6 col-lg-3 col-md-6">
-                        <div class="card">
-                            <div class="card-body px-3 py-4-5">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="dashboard-icon">
-                                            <i class="bi bi-card-checklist bg-primary text-white"></i>
+                        <div class="col-6 col-lg-3 col-md-6">
+                            <div class="card">
+                                <div class="card-body px-3 py-4-5">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="dashboard-icon">
+                                                <i class="bi bi-card-checklist bg-primary text-white"></i>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <h6 class="text-muted font-semibold">تعداد کل کاربران</h6>
-                                        <h6 class="font-extrabold mb-0">{{ $users ?? 0 }}</h6>
+                                        <div class="col-md-8">
+                                            <h6 class="text-muted font-semibold">تعداد کل کاربران</h6>
+                                            <h6 class="font-extrabold mb-0">{{ $users ?? 0 }}</h6>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-6 col-lg-3 col-md-6">
-                        <div class="card">
-                            <div class="card-body px-3 py-4-5">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="dashboard-icon">
-                                            <i class="bi bi-person-circle bg-success text-white"></i>
+                        <div class="col-6 col-lg-3 col-md-6">
+                            <div class="card">
+                                <div class="card-body px-3 py-4-5">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="dashboard-icon">
+                                                <i class="bi bi-person-circle bg-success text-white"></i>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <h6 class="text-muted font-semibold">#{{ \Illuminate\Support\Facades\Auth::user()->id }}-{{ \Illuminate\Support\Facades\Auth::user()->name }}</h6>
-                                        <h6 class="font-extrabold mb-0">{{ \Illuminate\Support\Facades\Auth::user()->tell }}</h6>
+                                        <div class="col-md-8">
+                                            <h6 class="text-muted font-semibold">#{{ $login_user->id }}-{{ $login_user->name }}</h6>
+                                            <h6 class="font-extrabold mb-0">{{ $login_user->tell }}</h6>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
             {{--  main  --}}
+            @if($login_user->role != "admin")
             <div class="col-12 col-lg-6">
                 <div class="row">
                     <div class="col-12 col-xl-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>آخرین درخواست های ارسال شده</h4>
+                                <h4>کلمه هایی که امروز باید در گوگل جستجو کنم</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-hover table-lg">
                                         <thead>
                                         <tr>
-                                            <th>شماره</th>
-                                            <th>کاربر</th>
-                                            <th>کوئری</th>
+{{--                                            <th>شماره</th>--}}
+{{--                                            <th>کاربر</th>--}}
+                                            <th>چیزی که باید جستجو کنم</th>
                                             <th>وضعیت</th>
-                                            <th>تاریخ ثبت</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                             @if(isset($dailyQuery) && count($dailyQuery))
                                                 @foreach($dailyQuery as $item)
-                                                    <tr class="text-center">
-                                                        <td>#{{ $item['id'] }}</td>
-                                                        <td><a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() . '/user/' . $item['user_id'] . '/edit') }}">#{{ $item['user_id'] }}-{{ $item->user->name ?? '' }}</a></td>
-                                                        <td><a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() . '/query/' . $item['query_id'] . '/edit') }}">#{{ $item['query_id'] }}-{{ $item->_query->title ?? '' }}</a></td>
+                                                    <tr>
+                                                    <!--<td>#{{ $item['id'] }}</td>-->
+                                                    <!--<td><a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() . '/user/' . $item['user_id'] . '/edit') }}">#{{ $item['user_id'] }}-{{ $item->user->name ?? '' }}</a></td>-->
+                                                        <td><a href="#"><!--#{{ $item['query_id'] }}-->{{ $item->_query->title ?? '' }}</a></td>
                                                         <td class="@if($item['status']) text-success @else text-danger @endif">
-                                                            {{ ($item['status']) ? 'تکمیل شد' : 'تکمیل نشده' }}
+                                                            {{ ($item['status']) ? 'ثبت شد' : 'هنوز ثبت نشده' }}
                                                         </td>
-                                                        <td>{{ App\AdditionalClasses\Date::timestampToShamsiDatetime($item['created_at']) }}</td>
                                                     </tr>
                                                 @endforeach
                                             @else
@@ -134,13 +137,15 @@
                     </div>
                 </div>
             </div>
+            @endif
             {{--  /main  --}}
 
             {{--  side  --}}
+
             <div class="col-12 col-lg-6">
                 <div class="card">
                     <div class="card-header">
-                        <h4>تقویم</h4>
+                        <h4>گزارش جستجوی های من در روزهای گذشته</h4>
                     </div>
                     <div class="card-content pb-4 p-1">
                         <span class="fc-calendar"></span>

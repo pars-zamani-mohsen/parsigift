@@ -22,7 +22,7 @@ class Query extends Model
      * The model information
      * @var string[]
      */
-    public static $modulename = array('en' => 'query', 'fa' => 'کوئری', 'model' => 'Query');
+    public static $modulename = array('en' => 'query', 'fa' => 'کلمه ها', 'model' => 'Query');
 
     /**
      * module fields for select and search

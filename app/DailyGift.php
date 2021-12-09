@@ -20,7 +20,7 @@ class DailyGift extends Model
      * The model information
      * @var string[]
      */
-    public static $modulename = array('en' => 'dailyGift', 'fa' => 'هدیه روزانه', 'model' => 'DailyGift');
+    public static $modulename = array('en' => 'dailyGift', 'fa' => 'پورسانت ها و جوایز من', 'model' => 'DailyGift');
 
     /**
      * module fields for select and search

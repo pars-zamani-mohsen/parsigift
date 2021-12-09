@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\DailyGift;
-use App\DailyQuery;
 use App\User;
 use App\Gift;
 use App\Query;
+use App\DailyGift;
+use App\DailyQuery;
 use App\GiftRequest;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 
 class HomeController extends Controller
 {
@@ -37,12 +37,6 @@ class HomeController extends Controller
         if ($current_user->role == 'user') {
             $this->registerDailyQuery($current_user, $date);
 
-            $dailyQueryCount = DailyQuery::where('user_id' , $current_user->id)
-                ->where('created_at', '>', strtotime($date . ' 00:00:00'))
-                ->where('created_at', '<', strtotime($date . ' 23:59:59'))
-                ->where('status', '0')
-                ->count();
-
             $dailyQuery = DailyQuery::with('_query')
                 ->where('user_id' , $current_user->id)
                 ->where('created_at', '>', strtotime($date . ' 00:00:00'))
@@ -52,11 +46,7 @@ class HomeController extends Controller
                 ->orderBy('id', 'Desc')
                 ->get();
             $data = array(
-                'pending_dailyQuery' => $dailyQueryCount,
                 'dailyQuery' => $dailyQuery,
-                'dailyGift' => DailyGift::where('user_id' , $current_user->id)->count(),
-                'users' => User::all()->count(),
-                'current_user' => $current_user,
             );
 
         } else {
@@ -64,23 +54,39 @@ class HomeController extends Controller
                 ->where('created_at', '<', strtotime($date . ' 23:59:59'))
                 ->where('status', '0')
                 ->count();
-            $dailyQuery = DailyQuery::with('_query')
-                ->where('created_at', '>', strtotime($date . ' 00:00:00'))
-                ->where('created_at', '<', strtotime($date . ' 23:59:59'))
-                ->where('status', '0')
-                ->limit(10)
-                ->orderBy('id', 'Desc')
-                ->get();
+
             $data = array(
                 'pending_dailyQuery' => $dailyQueryCount,
-                'dailyQuery' => $dailyQuery,
                 'dailyGift' => DailyGift::all()->count(),
                 'users' => User::all()->count(),
-                'current_user' => $current_user,
             );
         }
 
         return view('manager.home', $data);
+    }
+
+    /**
+     * Report my daily query
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function report()
+    {
+        return view('manager.report');
+    }
+
+    /**
+     * Report my daily query
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function bigGift()
+    {
+        return view('manager.bigGiftList', array(
+            'modulename' => array('en' => '', 'fa' => 'جایزه بزرگ', 'model' => ''),
+            'title' => ' فهرست ' . '',
+            'all' => DailyGift::with('user')->select('id', 'user_id', 'created_at')->where('amount', '>=', 500000)->paginate(10),
+            'search' => false,
+            'onlylist' => true,
+        ));
     }
 
     /**
@@ -91,13 +97,21 @@ class HomeController extends Controller
      */
     public function registerDailyQuery($current_user, string $date)
     {
-        $dailyQuery = DailyQuery::where('user_id' , $current_user->id)
+        $dailyQuery_Count = DailyQuery::where('user_id' , $current_user->id)
             ->where('created_at', '>', strtotime($date . ' 00:00:00'))
             ->where('created_at', '<', strtotime($date . ' 23:59:59'))
-            ->get();
+            ->count();
 
-        if (!count($dailyQuery)) {
-            $querys = Query::active()->inRandomOrder()->limit(10)->get();
+        /* get latest daily query in query id */
+        $fromdate = date('Y-m-d', strtotime('-2 days'));
+        $todate = date('Y-m-d', strtotime('-1 days'));
+        $last_DailyQuery = DailyQuery::where('user_id' , $current_user->id)
+            ->where('created_at', '>', strtotime($fromdate . ' 00:00:00'))
+            ->where('created_at', '<', strtotime($todate . ' 23:59:59'))
+            ->pluck('query_id')->toArray();
+
+        if (!$dailyQuery_Count) {
+            $querys = Query::active()->whereNotIn('id', $last_DailyQuery)->inRandomOrder()->limit(10)->get();
             foreach ($querys as $query) {
                 $instance = new DailyQuery();
                 $instance->user_id = $current_user->id;
