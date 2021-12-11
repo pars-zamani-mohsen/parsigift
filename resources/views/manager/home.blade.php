@@ -92,7 +92,7 @@
             @endif
             {{--  main  --}}
             @if($login_user->role != "admin")
-            <div class="col-12 col-lg-6">
+            <div class="col-12 col-lg-12">
                 <div class="row">
                     <div class="col-12 col-xl-12">
                         <div class="card">
@@ -107,7 +107,6 @@
 {{--                                            <th>شماره</th>--}}
 {{--                                            <th>کاربر</th>--}}
                                             <th>چیزی که باید جستجو کنم</th>
-                                            <th>وضعیت</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -116,9 +115,10 @@
                                                     <tr>
                                                     <!--<td>#{{ $item['id'] }}</td>-->
                                                     <!--<td><a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() . '/user/' . $item['user_id'] . '/edit') }}">#{{ $item['user_id'] }}-{{ $item->user->name ?? '' }}</a></td>-->
-                                                        <td><a href="#"><!--#{{ $item['query_id'] }}-->{{ $item->_query->title ?? '' }}</a></td>
-                                                        <td class="@if($item['status']) text-success @else text-danger @endif">
-                                                            {{ ($item['status']) ? 'ثبت شد' : 'هنوز ثبت نشده' }}
+                                                        <td>
+                                                            <div><a href="#"><!--#{{ $item['query_id'] }}-->{{ $item->_query->title ?? '' }}</a></div>
+                                                            <div dir="ltr">{{ urldecode($item->_query->url) ?? '' }}</div>
+                                                            <div dir="ltr" class="@if($item['status']) text-success @else text-danger @endif">{{ ($item['status']) ? 'ثبت شد' : 'هنوز ثبت نشده' }}</div>
                                                         </td>
                                                     </tr>
                                                 @endforeach

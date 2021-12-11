@@ -51,7 +51,7 @@
                         <!--<td>#{{ $item['id'] }}</td>-->
                         <!--<td>@if($item['user']['id'])<a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/user/' . $item['user']['id'] .'/edit') }}" target="_blank">#{{ $item['user']['id'] }}-{{ $item['user']['name'] }}</a>@endif</td>-->
                         <td>{{ $item['title'] }}</td>
-                        <td class="text-success">{{ number_format($item['amount']) }}</td>
+                        <td class="text-success">{{ App\AdditionalClasses\Date::convertEnglishNumToPersian(number_format($item['amount'])) }}</td>
                         <td dir="ltr" class="text-start">{{ App\AdditionalClasses\Date::timestampToShamsi($item['updated_at']) }}</td>
                     </tr>
                 @endforeach

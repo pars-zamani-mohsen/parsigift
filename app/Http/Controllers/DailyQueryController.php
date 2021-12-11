@@ -31,10 +31,15 @@ class DailyQueryController extends BaseController
     {
         try {
             $current_user = Auth::user();
+            if ($current_user->role == "admin")
+                $all = $this->instance->fetchAll_paginate(10);
+            else
+                $all = $this->instance->fetchAll_paginateByUser(10, $current_user->id);
+
             return view($this->parent['path'] . '.' . $this->modulename['en'] . '.list', array(
                 'modulename' => $this->modulename,
                 'title' => ' فهرست ' . $this->modulename['fa'],
-                'all' => $this->instance->fetchAll_paginate(10),
+                'all' => $all,
                 'search' => ($current_user->role == "admin") ? true : false,
                 'onlylist' => true,
             ));

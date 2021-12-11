@@ -126,7 +126,7 @@ class DailyGift extends Model
      */
     public function fetchAll_paginate_with_userid(int $limit, int $user_id)
     {
-        return DailyGift::select(self::$modulefields)->with(['user'])->orderBy('id', 'DESC')->paginate($limit);
+        return DailyGift::select(self::$modulefields)->where('user_id', $user_id)->with(['user'])->orderBy('id', 'DESC')->paginate($limit);
     }
 
     /**

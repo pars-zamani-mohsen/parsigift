@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
-use App\DailyGift;
-use App\DailyQuery;
+use App\AdditionalClasses\Date;
+use App\User;
 use App\Gift;
 use App\Message;
+use App\DailyGift;
+use App\DailyQuery;
 use App\GiftRequest;
 use App\Rules\Mobile;
-use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,7 @@ class GiftRequestController extends Controller
         );
         $this->validate($request, $validate_data);
 
-        $current_user = User::where('tell', $request->mobile)->first();
+        $current_user = User::where('tell', Date::convertPersianNumToEnglish($request->mobile))->first();
         /* check user exsit */
         if ($current_user) {
             /* check user active */
@@ -51,7 +52,7 @@ class GiftRequestController extends Controller
                     $_dailyQuery_target = false;
                     foreach ($dailyQuerys as $_dailyQuery) {
                         /* check url and get instance */
-                        if (strpos($request->url, $_dailyQuery->_query->url) !== false) {
+                        if (strpos(urldecode($request->url), urldecode($_dailyQuery->_query->url)) !== false) {
                             $_dailyQuery_target = $_dailyQuery;
                         }
                     }
@@ -91,7 +92,7 @@ class GiftRequestController extends Controller
                         $message = array(
                             'success' => false,
                             'message' => array(
-                                'text' => 'آدرس ارسال شده معتبر نیست',
+                                'text' => 'شما روی لینک اشتباه در گوگل کلیک کردید، لطفا دوباره سعی کنید',
                                 'code' => 104,
                             )
                         );

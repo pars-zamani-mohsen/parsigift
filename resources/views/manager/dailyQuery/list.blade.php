@@ -84,7 +84,7 @@
                                 <span class="text-dark2 text-decoration-underline"><b class="text-dark">{{ App\AdditionalClasses\Date::convertEnglishNumToPersian($i) }}</b></span>
                                 <span> تا کلمه دیگه برای امروز جستجو کنی تا بتونی شانس خودتو برای جایزه <b class="bold text-dark">{{ App\AdditionalClasses\Date::convertEnglishNumToPersian('500،000') }}</b> تومانی امتحان کنی!</span>
                             @else
-                                <span> مبلغ <b class="text-dark">5000</b> تومان هدیه برای شما ثبت شد.</span>
+                                <span> مبلغ <b class="text-dark">{{ App\AdditionalClasses\Date::convertEnglishNumToPersian(number_format(5000)) }}</b> تومان هدیه برای شما ثبت شد.</span>
                             @endif
                         </div>
                     </td>

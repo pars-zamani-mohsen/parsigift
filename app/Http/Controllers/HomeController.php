@@ -41,7 +41,6 @@ class HomeController extends Controller
                 ->where('user_id' , $current_user->id)
                 ->where('created_at', '>', strtotime($date . ' 00:00:00'))
                 ->where('created_at', '<', strtotime($date . ' 23:59:59'))
-                ->where('status', '0')
                 ->limit(10)
                 ->orderBy('id', 'Desc')
                 ->get();

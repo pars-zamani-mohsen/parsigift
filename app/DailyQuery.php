@@ -99,6 +99,17 @@ class DailyQuery extends Model
     }
 
     /**
+     * fetch All records(paginate)
+     * Require *
+     * @param $limit
+     * @return mixed
+     */
+    public function fetchAll_paginateByUser($limit, $user_id)
+    {
+        return DailyQuery::select(self::$modulefields)->with(['user', '_query'])->where('user_id', $user_id)->orderBy('id', 'DESC')->paginate($limit);
+    }
+
+    /**
      * fetch All deleted records
      * Require * (for recycle bin)
      *

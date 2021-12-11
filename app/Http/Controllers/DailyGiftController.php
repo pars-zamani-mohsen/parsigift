@@ -40,7 +40,6 @@ class DailyGiftController extends BaseController
                 $all = $this->instance->fetchAll_paginate_with_userid(20, Auth::id());
             }
 
-
             return view($this->parent['path'] . '.' . $this->modulename['en'] . '.list', array(
                 'modulename' => $this->modulename,
                 'title' => ' فهرست ' . $this->modulename['fa'],

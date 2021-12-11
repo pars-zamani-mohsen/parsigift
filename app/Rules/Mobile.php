@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\AdditionalClasses\Date;
 use Illuminate\Contracts\Validation\Rule;
 
 class Mobile implements Rule
@@ -25,7 +26,7 @@ class Mobile implements Rule
      */
     public function passes($attribute, $value)
     {
-        return ($value && preg_match_all('/^(\+98|0|)[9]{1}([0-9]{9,9}$)/i', $value));
+        return ($value && preg_match_all('/^(\+98|0|)[9]{1}([0-9]{9,9}$)/i', Date::convertPersianNumToEnglish($value)));
 //        return ($value && preg_match_all('/^[0]{1}[9]{1}([0-9]{9,9}$)/i', $value));
     }
 
