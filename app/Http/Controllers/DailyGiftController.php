@@ -57,21 +57,21 @@ class DailyGiftController extends BaseController
 
     public function specialGift()
     {
-        $date = date('Y-m-d', time()); // strtotime("-1 days") // time()
+        $date = date('Y-m-d', strtotime("-1 days")); // strtotime("-1 days") // time()
 
         $specialGift = DailyGift::where('amount', 500000)
             ->where('created_at', '>', strtotime($date . ' 00:00:00'))
             ->where('created_at', '<', strtotime($date . ' 23:59:59'))
             ->first();
 
-        if (!$specialGift) {
 
+        if (!$specialGift) {
             $dailyGift = DailyGift::with(['user'])
                 ->where('created_at', '>', strtotime($date . ' 00:00:00'))
                 ->where('created_at', '<', strtotime($date . ' 23:59:59'))
                 ->inRandomOrder()->first();
-            if ($dailyGift) {
 
+            if ($dailyGift) {
                 $user = $dailyGift->user;
                 /* insert gift */
                 $dailyGift = new DailyGift();
@@ -80,6 +80,11 @@ class DailyGiftController extends BaseController
                 $dailyGift->user_id = $user->id;
                 $dailyGift->save();
                 $message = 'هدیه مخصوص پارسی گیفت امروز اختصاص داده شد به #' . $user->id . '-' . $user->name;
+
+                $sms_message = "با سلام ، شما برنده  خوش شانس جایزه بزرگ ۵۰۰ هزارتومنی امروز شدید.
+لطفا ظرف چهار ساعت آینده اسکرین شات این پیامک را در گروه هولدینگ به اشتراک بگذارید تا جایزه تان ثبت گردد.
+موفق و پیروز باشید.";
+                \App\Message::send_simple_sms(\App\Message::getSmsSenderNumber(), [$user->tell], $sms_message);
 
             } else {
                 $message = 'هدیه مخصوص پارسی گیفت امروز اختصاص داده شده، لطفا فردا تلاش کنید';

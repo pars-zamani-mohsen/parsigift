@@ -17,6 +17,7 @@ class CreateQueriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('url');
+            $table->string('meta')->nullable();
             $table->boolean('active')->default(0);
             $table->integer('created_at')->nullable();
             $table->integer('updated_at')->nullable();

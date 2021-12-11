@@ -69,8 +69,8 @@
                                             <div class="form-group">
                                                 <label for="role">نقش <i class="new-user-req text-danger"> * </i> </label>
                                                 <select name="role" id="role" class="form-select" required>
-                                                    <option value="admin" @if(isset($This) && $This['role'] == 'admin' || old('role') == 'admin') selected @endif>Admin</option>
                                                     <option value="user" @if(isset($This) && $This['role'] == 'user' || old('role') == 'user') selected @endif>User</option>
+                                                    <option value="admin" @if(isset($This) && $This['role'] == 'admin' || old('role') == 'admin') selected @endif>Admin</option>
                                                 </select>
                                             </div>
                                         </div>

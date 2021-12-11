@@ -11,6 +11,7 @@
             <th>شماره کارت</th>
             <th>تایید R&D</th>
             <th>نقش</th>
+            <th>نسبت</th>
             <th>وضعیت</th>
             <th>آخرین ویرایش</th>
             <th>ایجاد شده توسط</th>
@@ -30,6 +31,7 @@
                         {{ ($item['r_and_d_check']) ? 'فعال' : 'غیر فعال' }}
                     </td>
                     <td>{{ $item['role'] }}</td>
+                    <td>{{ $item['nesbat'] }}</td>
                     <td class="@if($item['active']) text-success @else text-danger @endif">
                         {{ ($item['active']) ? 'فعال' : 'غیر فعال' }}
                     </td>

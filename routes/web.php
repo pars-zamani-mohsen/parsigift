@@ -25,6 +25,7 @@ Route::get('/cc', 'UserController@clear');
 
 //Route::get('/_auto', 'GiftController@autoInsertGift');
 Route::get('/dailyGift/gift/special', 'DailyGiftController@specialGift')->name('DailyGift.specialGift');
+Route::get('/user/actvity/status', 'UserController@checkActvity')->name('DailyGift.checkActvity');
 
 
 /**
