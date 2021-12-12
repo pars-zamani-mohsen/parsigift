@@ -202,4 +202,20 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\User', 'created_by');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function dailyQuerys()
+    {
+        return $this->hasMany('App\DailyQuery', 'user_id')->orderByDesc('id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function dailyQuery()
+    {
+        return $this->hasOne('App\DailyQuery', 'user_id')->where('status', 1)->orderByDesc('id');
+    }
 }

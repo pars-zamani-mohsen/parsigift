@@ -78,7 +78,7 @@
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label for="cart_number">شماره کارت<i class="text-danger"> * </i></label>
-                                                <input type="text" id="cart_number" class="form-control" name="cart_number" required maxlength="16" pattern="\d*"
+                                                <input type="text" id="cart_number" class="form-control" name="cart_number" required maxlength="16" {{--pattern="\d*"--}}
                                                        value="{{ ((isset($This) && $This->cart_number)) ? $This->cart_number : old('cart_number') }}">
                                             </div>
                                         </div>

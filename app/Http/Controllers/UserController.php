@@ -43,7 +43,7 @@ class UserController extends BaseController
         $this->instance->tell = Date::convertPersianNumToEnglish($request->tell);
         $this->instance->role = $request->role;
         $this->instance->nesbat = $request->nesbat;
-        $this->instance->cart_number = $request->cart_number;
+        $this->instance->cart_number = Date::convertPersianNumToEnglish($request->cart_number);
         $this->instance->r_and_d_check = $request->r_and_d_check;
         $this->instance->password = bcrypt(Date::convertPersianNumToEnglish($request->password));
         $this->instance->r_and_d_check = (isset($request->r_and_d_check) && $request->r_and_d_check == 'on') ? 1 : 0;
@@ -82,7 +82,7 @@ class UserController extends BaseController
             $instance->tell = Date::convertPersianNumToEnglish($request->tell);
             $instance->role = $request->role;
             $instance->nesbat = $request->nesbat;
-            $instance->cart_number = $request->cart_number;
+            $instance->cart_number = Date::convertPersianNumToEnglish($request->cart_number);
             $instance->r_and_d_check = (isset($request->r_and_d_check) && $request->r_and_d_check == 'on') ? 1 : 0;
             $instance->active = (isset($request->active) && $request->active == 'on') ? 1 : 0;
             if ($request->password) $instance->password = bcrypt(Date::convertPersianNumToEnglish($request->password));
@@ -98,12 +98,26 @@ class UserController extends BaseController
         return $this->function_response(404);
     }
 
+    /**
+     * Check user activity
+     */
     public function checkActvity()
     {
-        $deactive_users = User::where('role', 'user')
-            ->where()
+        $date = Date('Y-m-d', strtotime('-3 days'));
+        $deactive_users = User::with('dailyQuery')
+            ->where('role', 'user')
+            ->where('created_at', '<', strtotime($date . ' 00:00:00'))
             ->get();
-        dd('test');
+
+        foreach ($deactive_users as $user) {
+            if ($user->dailyQuery && isset($user->dailyQuery->created_at)) {
+                $created_time = $user->dailyQuery->toArray()['created_at'];
+                if ($created_time < strtotime($date . ' 00:00:00')) {
+                    $user->active = 0;
+                    $user->save();
+                }
+            }
+        }
     }
 
     /**
