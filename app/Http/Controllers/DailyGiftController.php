@@ -69,6 +69,7 @@ class DailyGiftController extends BaseController
             $dailyGift = DailyGift::with(['user'])
                 ->where('created_at', '>', strtotime($date . ' 00:00:00'))
                 ->where('created_at', '<', strtotime($date . ' 23:59:59'))
+                ->where('amount', 5000)
                 ->inRandomOrder()->first();
 
             if ($dailyGift) {

@@ -60,7 +60,7 @@ class Date
     public static function shamsiToTimestamp($date)
     {
         if ($date) {
-            $PersianDateArray = explode('/', Date::convertPersianNumToEnglish($date));
+            $PersianDateArray = explode('/', Date::convertPersianNumToEnglish(str_replace('-', '/', $date)));
             $MiladiDateArray = CalendarUtils::toGregorian($PersianDateArray[0], $PersianDateArray[1], $PersianDateArray[2]);
             $MiladiDateString = implode($MiladiDateArray, '-');
             $timestamp = strtotime($MiladiDateString);

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\AdditionalClasses\Date;
 use App\User;
 use App\Rules\Mobile;
 use Illuminate\Http\Request;
+use App\AdditionalClasses\Date;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
 
@@ -100,6 +100,8 @@ class UserController extends BaseController
 
     /**
      * Check user activity
+     *
+     * @return string
      */
     public function checkActvity()
     {
@@ -118,6 +120,7 @@ class UserController extends BaseController
                 }
             }
         }
+        return 'done!';
     }
 
     /**

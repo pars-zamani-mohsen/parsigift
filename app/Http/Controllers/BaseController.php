@@ -209,7 +209,7 @@ class BaseController extends Controller
                 return view($this->parent['path'] . '.' . $this->modulename['en'] . '.list', array(
                     'modulename' => $this->modulename,
                     'title' => ' فهرست ' . $this->modulename['fa'],
-                    'all' => $query->orderBy('id', 'DESC')->paginate(20),
+                    'all' => $query->orderBy('id', 'DESC')->paginate(999),
                     'search' => true,
                 ));
             }

@@ -34,8 +34,10 @@ Route::get('/user/actvity/status', 'UserController@checkActvity')->name('DailyGi
 Route::redirect('/register', '/login');
 Route::group(['prefix' => '/_manager', 'middleware' => 'auth'], function(){
     Route::get('/dashboard', 'HomeController@index')->name('Dashboard');
-    Route::get('/report', 'HomeController@report')->name('Dashboard.Report');
     Route::get('/bigGift', 'HomeController@bigGift')->name('Dashboard.BigGift');
+    Route::get('/report', 'HomeController@report')->name('Dashboard.Report');
+    Route::get('/report/{date}', 'HomeController@report')->name('Dashboard.Report');
+    Route::get('/report/task/list/{type}/{ids}', 'HomeController@tasklist')->name('Dashboard.tasklist');
 
     // Gift
     Route::resource('/gift', 'GiftController')->middleware('userlimit');
@@ -60,6 +62,7 @@ Route::group(['prefix' => '/_manager', 'middleware' => 'auth'], function(){
     // DailyQuery
     Route::get('/dailyQuery', 'DailyQueryController@index');
     Route::get('dailyQuery/module/search', 'DailyQueryController@search')->name('DailyQuery.search');
+    Route::get('/dailyQuery/report/{date}', 'DailyQueryController@report')->name('DailyGift.report');
     Route::get('/dailyQuery/report/{date}', 'DailyQueryController@report')->name('DailyGift.report');
 
     // DailyGift

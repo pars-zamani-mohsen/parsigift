@@ -118,7 +118,7 @@
                                                         <td>
                                                             <div><a href="#"><!--#{{ $item['query_id'] }}-->{{ $item->_query->title ?? '' }}</a></div>
                                                             <div dir="ltr">{{ urldecode($item->_query->url) ?? '' }}</div>
-                                                            <div dir="ltr" class="@if($item['status']) text-success @else text-danger @endif">{{ ($item['status']) ? 'ثبت شد' : 'هنوز ثبت نشده' }}</div>
+                                                            <div dir="rtl" class="@if($item['status']) text-success @else text-danger @endif">{{ ($item['status']) ? 'ثبت شد' : 'هنوز ثبت نشده' }}</div>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -158,7 +158,7 @@
 @endsection
 
 @section('script')
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{{ asset('/manager/assets/js/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ asset('manager/assets/js/farsi-calendar.js') }}"></script>
     <script>
         $(document).ready(function () {
