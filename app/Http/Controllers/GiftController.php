@@ -93,7 +93,7 @@ class GiftController extends BaseController
 //            for ($i = 0; $i < $qty; $i++) {
 //                $this->instance = new Gift();
 //                $this->instance->title = $item;
-//                $this->instance->amount = 50000;
+//                $this->instance->amount = 1000;
 //                $this->instance->qty = 1;
 //                $this->instance->active = 1;
 //                $this->instance->created_by = 1;

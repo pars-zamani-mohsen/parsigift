@@ -18,6 +18,7 @@ class CreateDailyGiftsTable extends Migration
             $table->string('title');
             $table->float('amount')->default(0)->nullable();
             $table->bigInteger('user_id')->unsigned();
+            $table->boolean('special')->default(0)->nullable();
             $table->integer('created_at')->nullable();
             $table->integer('updated_at')->nullable();
             $table->integer('deleted_at')->nullable();

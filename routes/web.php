@@ -32,11 +32,11 @@ Route::get('/user/actvity/status', 'UserController@checkActvity')->name('DailyGi
  * Manager panel
  */
 Route::redirect('/register', '/login');
-Route::group(['prefix' => '/_manager', 'middleware' => 'auth'], function(){
+Route::group(['prefix' => '/_manager', 'middleware' => 'auth'], function () {
     Route::get('/dashboard', 'HomeController@index')->name('Dashboard');
     Route::get('/bigGift', 'HomeController@bigGift')->name('Dashboard.BigGift');
     Route::get('/report', 'HomeController@report')->name('Dashboard.Report');
-    Route::get('/report/{date}', 'HomeController@report')->name('Dashboard.Report');
+    Route::get('/report/{fromdate}/{todate}', 'HomeController@report')->name('Dashboard.Report');
     Route::get('/report/task/list/{type}/{ids}', 'HomeController@tasklist')->name('Dashboard.tasklist');
 
     // Gift

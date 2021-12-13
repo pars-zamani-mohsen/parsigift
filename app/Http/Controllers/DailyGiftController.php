@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\DailyGift;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Database\Eloquent\Model;
 
 class DailyGiftController extends BaseController
 {
@@ -59,17 +59,16 @@ class DailyGiftController extends BaseController
     {
         $date = date('Y-m-d', strtotime("-1 days")); // strtotime("-1 days") // time()
 
-        $specialGift = DailyGift::where('amount', 500000)
+        $specialGift = DailyGift::where('special', 1)
             ->where('created_at', '>', strtotime($date . ' 00:00:00'))
             ->where('created_at', '<', strtotime($date . ' 23:59:59'))
             ->first();
-
 
         if (!$specialGift) {
             $dailyGift = DailyGift::with(['user'])
                 ->where('created_at', '>', strtotime($date . ' 00:00:00'))
                 ->where('created_at', '<', strtotime($date . ' 23:59:59'))
-                ->where('amount', 5000)
+                ->where('special', 0)
                 ->inRandomOrder()->first();
 
             if ($dailyGift) {
@@ -77,12 +76,13 @@ class DailyGiftController extends BaseController
                 /* insert gift */
                 $dailyGift = new DailyGift();
                 $dailyGift->title = 'هدیه مخصوص پارسی گیفت';
-                $dailyGift->amount = 500000;
+                $dailyGift->amount = DailyGift::$dailySpecialGiftAmount;
                 $dailyGift->user_id = $user->id;
+                $dailyGift->special = 1;
                 $dailyGift->save();
                 $message = 'هدیه مخصوص پارسی گیفت امروز اختصاص داده شد به #' . $user->id . '-' . $user->name;
 
-                $sms_message = "با سلام ، شما برنده  خوش شانس جایزه بزرگ ۵۰۰ هزارتومنی امروز شدید.
+                $sms_message = "با سلام، شما برنده خوش شانس جایزه بزرگ ۵۰۰ هزار تومانی امروز پارسی گیفت شدید.
 لطفا ظرف چهار ساعت آینده اسکرین شات این پیامک را در گروه هولدینگ به اشتراک بگذارید تا جایزه تان ثبت گردد.
 موفق و پیروز باشید.";
                 \App\Message::send_simple_sms(\App\Message::getSmsSenderNumber(), [$user->tell], $sms_message);

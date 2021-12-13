@@ -69,14 +69,16 @@ class HomeController extends Controller
     /**
      * Report my daily query
      *
-     * @param string|null $date
+     * @param string|null $fromdate
+     * @param string|null $todate
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function report(string $date = null)
+    public function report(string $fromdate = null, string $todate = null)
     {
-        $date = ($date) ? date('Y-m-d', Date::shamsiToTimestamp($date)) : date('Y-m-d');
+        $fromdate = ($fromdate) ? date('Y-m-d', Date::shamsiToTimestamp($fromdate)) : date('Y-m-d');
+        $todate = ($todate) ? date('Y-m-d', Date::shamsiToTimestamp($todate)) : date('Y-m-d');
         $current_user = Auth::user();
-        $response = $this->report_generator($current_user, $date);
+        $response = $this->report_generator($current_user, $fromdate, $todate);
         return view('manager.report', $response);
     }
 
@@ -84,13 +86,14 @@ class HomeController extends Controller
      * Report generator
      *
      * @param $current_user
-     * @param string $date
+     * @param string $fromdate
+     * @param string $todate
      * @return array
      */
-    public function report_generator($current_user, string $date)
+    public function report_generator($current_user, string $fromdate, string $todate)
     {
         try {
-            $response = array('date' => $date, 'current_user' => $current_user);
+            $response = array('fromdate' => strtotime($fromdate), 'todate' => strtotime($todate), 'current_user' => $current_user);
 
             if ($current_user->role == "admin") {
                 $users = array();
@@ -102,8 +105,8 @@ class HomeController extends Controller
                 $users_pending_query_list = array();
                 $dailyQuerys = DailyQuery::select('id', 'user_id', 'query_id', 'status')
                     ->with(['_query'])
-                    ->where('created_at', '>', strtotime($date . ' 00:00:00'))
-                    ->where('created_at', '<', strtotime($date . ' 23:59:59'))
+                    ->where('created_at', '>', strtotime($fromdate . ' 00:00:00'))
+                    ->where('created_at', '<', strtotime($todate . ' 23:59:59'))
                     ->get();
 
                 foreach ($dailyQuerys as $_dailyQuery) {
@@ -126,12 +129,18 @@ class HomeController extends Controller
                     }
                 }
 
-                $all_user = User::where('role', 'user')->count();
-                $all_user_active = User::where('role', 'user')->where('active', '1')->where('r_and_d_check', '1')->count();
-                $all_user_deactive = User::where('role', 'user')->where('active', '0')->orWhere('r_and_d_check', '0')->count();
+                $all_user_active = 0;
+                $all_user_deactive = 0;
+                $all_user = User::select('id', 'role', 'active', 'r_and_d_check')->where('role', 'user')->get();
+                foreach ($all_user as $_user) {
+                    if ($_user->active && $_user->r_and_d_check) ++$all_user_active;
+                    else ++$all_user_deactive;
+                }
+                $all_user = count($all_user);
 
                 $response = array(
-                    'date' => $date,
+                    'fromdate' => strtotime($fromdate),
+                    'todate' => strtotime($todate),
                     'current_user' => $current_user,
 
                     'today_query' => array('count' => count($dailyQuerys), 'percent' => 100),
@@ -191,7 +200,7 @@ class HomeController extends Controller
         return view('manager.bigGiftList', array(
             'modulename' => array('en' => '', 'fa' => 'جایزه بزرگ', 'model' => ''),
             'title' => ' فهرست ' . '',
-            'all' => DailyGift::with('user')->select('id', 'user_id', 'created_at')->where('amount', '>=', 500000)->paginate(10),
+            'all' => DailyGift::with('user')->select('id', 'user_id', 'created_at')->where('special', 1)->paginate(10),
             'search' => false,
             'onlylist' => true,
         ));

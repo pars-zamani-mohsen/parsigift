@@ -9,6 +9,9 @@ class DailyGift extends Model
 {
     use SoftDeletes;
 
+    public static $dailyGiftAmount = 5000;
+    public static $dailySpecialGiftAmount = 500000;
+
     /**
      * The storage format of the model's date columns.
      *
