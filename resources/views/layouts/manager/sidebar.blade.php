@@ -71,7 +71,7 @@
                             <span>تنظیمات</span>
                         </a>
                         <ul class="submenu">
-                            @php $moduleModel = '\App\Gift'; $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
+{{--                            @php $moduleModel = '\App\Gift'; $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
                             <li class="submenu-item" data-url="{{ $url }}">
                                 <a href="{{ url($url) }}">
                                     <i class="bi bi-gift"></i>
@@ -86,7 +86,7 @@
                                     <span>{{ $moduleModel::$modulename['fa'] }}</span>
                                 </a>
                             </li>
-
+                            --}}
                             @php  $moduleModel = '\App\User';  $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
                             <li class="submenu-item" data-url="{{ $url }}">
                                 <a href="{{ url($url) }}">
@@ -94,19 +94,21 @@
                                 </a>
                             </li>
 
-                            @php  $moduleModel = '\App\Recyclebin';  $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
-                            <li class="submenu-item" data-url="{{ $url }}">
-                                <a href="{{ url($url) }}">
-                                    <i class="bi bi-trash"></i><span>{{ $moduleModel::$modulename['fa'] }}</span>
-                                </a>
-                            </li>
+                            @if(in_array($login_user->id, array(1, 2)))
+                                @php  $moduleModel = '\App\Recyclebin';  $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
+                                <li class="submenu-item" data-url="{{ $url }}">
+                                    <a href="{{ url($url) }}">
+                                        <i class="bi bi-trash"></i><span>{{ $moduleModel::$modulename['fa'] }}</span>
+                                    </a>
+                                </li>
 
-                            @php  $moduleModel = '\App\ActivityLog';  $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
-                            <li class="submenu-item" data-url="{{ $url }}">
-                                <a href="{{ url($url) }}">
-                                    <i class="bi bi-clipboard"></i><span>{{ $moduleModel::$modulename['fa'] }}</span>
-                                </a>
-                            </li>
+                                @php  $moduleModel = '\App\ActivityLog';  $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
+                                <li class="submenu-item" data-url="{{ $url }}">
+                                    <a href="{{ url($url) }}">
+                                        <i class="bi bi-clipboard"></i><span>{{ $moduleModel::$modulename['fa'] }}</span>
+                                    </a>
+                                </li>
+                            @endif
                         </ul>
                     </li>
                 @endif

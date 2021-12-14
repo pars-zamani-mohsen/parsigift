@@ -167,12 +167,13 @@ class HomeController extends Controller
 
     /**
      * @param string $type
-     * @param string $ids
+     * @param string|null $ids
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function tasklist(string $type, string $ids)
+    public function tasklist(string $type, string $ids = null)
     {
         try {
+            if (!$ids) return redirect()->back()->withErrors(['رکوردی برای نمایش وجود ندارد']);
             $type = ($type == 'success') ? 'که همه تسک ها را انجام داده اند' : 'که همه تسک ها را انجام نداده اند';
             $instance = new User();
             $modulename = $instance::$modulename;
@@ -180,9 +181,14 @@ class HomeController extends Controller
             return view($parent['path'] . '.' . $modulename['en'] . '.list', array(
                 'modulename' => $modulename,
                 'title' => ' فهرست ' . $modulename['fa'] . ' ' . $type,
-                'all' => User::whereIn('id', explode(',', $ids))->paginate(9999),
+                'all' => User::whereIn('id', explode(',', base64_decode($ids)))->paginate(9999),
                 'search' => false,
                 'onlylist' => true,
+                'navigation' => array(
+                    'url' => 'report',
+                    'title' => 'بازگشت',
+                    'icon' => 'bi-arrow-left-circle',
+                ),
             ));
 
         } catch (\Exception $e) {

@@ -68,6 +68,14 @@
                                                </button>
                                             </div>
                                         @endif
+                                        @if(isset($navigation) && $navigation)
+                                            <div
+                                                class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 text-end">
+                                                <a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $navigation['url']) }}"
+                                                   class="btn btn-primary w-100"><i
+                                                        class="bi {{ $navigation['icon'] }} bi-line-height"></i> {{ $navigation['title'] }} </a>
+                                            </div>
+                                        @endif
 
                                         @if(isset($is_related_list) && $is_related_list)
                                             <div

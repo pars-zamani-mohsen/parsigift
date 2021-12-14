@@ -38,6 +38,7 @@ Route::group(['prefix' => '/_manager', 'middleware' => 'auth'], function () {
     Route::get('/report', 'HomeController@report')->name('Dashboard.Report');
     Route::get('/report/{fromdate}/{todate}', 'HomeController@report')->name('Dashboard.Report');
     Route::get('/report/task/list/{type}/{ids}', 'HomeController@tasklist')->name('Dashboard.tasklist');
+    Route::get('/report/task/list/{type}/', 'HomeController@tasklist')->name('Dashboard.tasklist');
 
     // Gift
     Route::resource('/gift', 'GiftController')->middleware('userlimit');

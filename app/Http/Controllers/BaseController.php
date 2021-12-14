@@ -29,7 +29,7 @@ class BaseController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * Return params can have: "onlylist", "is_related_list", "search", "import", "export", "shortcode" to add or remove buttons
+     * Return params can have: "onlylist", "is_related_list", "search", "import", "export", "shortcode", "navigation" to add or remove buttons
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function index()

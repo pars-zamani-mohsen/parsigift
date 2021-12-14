@@ -175,7 +175,7 @@
                                             <h6 class="text-muted font-semibold">
                                                 <span>تعداد کل کاربرهای فعال که تسک دریافت کرده اند </span>
                                                 <span class="bold text-success invisible">تکمیل شده</span> <span class="fs-7">(در بازه انتخاب شده)</span>
-                                                <a class="btn btn-outline-secondary" href="{{ url('/_manager/report/task/list/all/' . implode(',', $all_users_query_list['value'] ?? array())) }}">مشاهده</a>
+                                                <a class="btn btn-outline-secondary" href="{{ url('/_manager/report/task/list/all/' . base64_encode(implode(',', $all_users_query_list['value'] ?? array()))) }}">مشاهده</a>
                                             </h6>
                                             <h6 class="font-extrabold mb-0">{{ $all_users_query_list['count'] ?? 0 }} (%{{ $all_users_query_list['percent'] ?? 0 }})</h6>
                                         </div>
@@ -196,7 +196,7 @@
                                             <h6 class="text-muted font-semibold">
                                                 <span>تعداد کاربرهایی که  تسک هایشان </span>
                                                 <span class="bold text-success">ثــبت شده</span> <span class="fs-7">(در بازه انتخاب شده)</span>
-                                                <a class="btn btn-outline-secondary" href="{{ url('/_manager/report/task/list/success/' . implode(',', $users_success_query_list['value'] ?? array())) }}">مشاهده</a>
+                                                <a class="btn btn-outline-secondary" href="{{ url('/_manager/report/task/list/success/' . base64_encode(implode(',', $users_success_query_list['value'] ?? array()))) }}">مشاهده</a>
                                             </h6>
                                             <h6 class="font-extrabold mb-0">{{ $users_success_query_list['count'] ?? 0 }} (%{{ $users_success_query_list['percent'] ?? 0 }})</h6>
                                         </div>
@@ -217,7 +217,7 @@
                                             <h6 class="text-muted font-semibold">
                                                 <span>تعداد کاربرهایی که  تسک هایشان </span>
                                                 <span class="text-danger">تکمیل نشده</span> <span class="fs-7">(در بازه انتخاب شده)</span>
-                                                <a class="btn btn-outline-secondary" href="{{ url('/_manager/report/task/list/pending/' . implode(',', $users_pending_query_list['value'] ?? array())) }}">مشاهده</a>
+                                                <a class="btn btn-outline-secondary" href="{{ url('/_manager/report/task/list/pending/' . base64_encode(implode(',', $users_pending_query_list['value'] ?? array()))) }}">مشاهده</a>
                                             </h6>
                                             <h6 class="font-extrabold mb-0">{{ $users_pending_query_list['count'] ?? 0 }} (%{{ $users_pending_query_list['percent'] ?? 0 }})</h6>
                                         </div>

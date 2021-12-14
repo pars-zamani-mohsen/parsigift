@@ -55,13 +55,18 @@ class DailyGiftController extends BaseController
         }
     }
 
+    /**
+     * lottery for pars special gift
+     *
+     * @return string
+     */
     public function specialGift()
     {
         $date = date('Y-m-d', strtotime("-1 days")); // strtotime("-1 days") // time()
 
         $specialGift = DailyGift::where('special', 1)
-            ->where('created_at', '>', strtotime($date . ' 00:00:00'))
-            ->where('created_at', '<', strtotime($date . ' 23:59:59'))
+            ->where('created_at', '>', strtotime(date('Y-m-d') . ' 00:00:00'))
+            ->where('created_at', '<', strtotime(date('Y-m-d') . ' 23:59:59'))
             ->first();
 
         if (!$specialGift) {
@@ -95,6 +100,33 @@ class DailyGiftController extends BaseController
             $message = 'هدیه مخصوص پارسی گیفت امروز اختصاص داده شده، لطفا فردا تلاش کنید';
         }
 
+        $this->sendMessageToBot(base64_encode($message));
         return $message;
+    }
+
+    /**
+     * send message to telegram group by bot
+     *
+     * @param string $message
+     */
+    public function sendMessageToBot(string $message)
+    {
+        try {
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://support.parspn.com/telegram_message/$message",
+                CURLOPT_RETURNTRANSFER => false,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+            ));
+
+            $response = curl_exec($curl);
+            curl_close($curl);
+        } catch (\Exception $e) {}
     }
 }
