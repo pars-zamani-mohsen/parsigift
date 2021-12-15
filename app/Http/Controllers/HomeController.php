@@ -130,11 +130,11 @@ class HomeController extends Controller
                 }
 
                 $all_user_active = 0;
-                $all_user_deactive = 0;
+                $all_user_deactive = array();
                 $all_user = User::select('id', 'role', 'active', 'r_and_d_check')->where('role', 'user')->get();
                 foreach ($all_user as $_user) {
                     if ($_user->active && $_user->r_and_d_check) ++$all_user_active;
-                    else ++$all_user_deactive;
+                    else $all_user_deactive[] = $_user->id;
                 }
                 $all_user = count($all_user);
 
@@ -153,7 +153,7 @@ class HomeController extends Controller
 
                     'all_user' => array('count' => $all_user, 'percent' => 100),
                     'all_user_active' => array('count' => $all_user_active, 'percent' => number_format(($all_user_active * 100) / $all_user, 2)),
-                    'all_user_deactive' => array('count' => $all_user_deactive, 'percent' => number_format(($all_user_deactive * 100) / $all_user, 2)),
+                    'all_user_deactive' => array('count' => count($all_user_deactive), 'percent' => number_format((count($all_user_deactive) * 100) / $all_user, 2), 'value' => $all_user_deactive),
 
                     'success_query_list' => $success_query_list,
                     'pending_query_list' => $pending_query_list,

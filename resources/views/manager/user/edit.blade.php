@@ -97,7 +97,7 @@
                                                 <div class="custom-control custom-checkbox">
                                                     <label class="form-check-label" for="r_and_d_check">تایید R&D</label>
                                                     <input type="checkbox" class="form-check-input form-check-info" name="r_and_d_check" id="r_and_d_check"
-                                                           @if(isset($This) && $This->r_and_d_check) checked @endif>
+                                                           @if(isset($This) && !$This->r_and_d_check) @else checked @endif>
                                                 </div>
                                             </div>
                                         </div>

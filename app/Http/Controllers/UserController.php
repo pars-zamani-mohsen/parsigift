@@ -19,7 +19,7 @@ class UserController extends BaseController
     public function __construct()
     {
         $this->instance = new User();
-        $this->modulename   = $this->instance::$modulename;
+        $this->modulename = $this->instance::$modulename;
         $this->parent = array('path' => HomeController::fetch_manager_pre_path(), 'url' => HomeController::fetch_manager_pre_url());
     }
 
@@ -121,6 +121,22 @@ class UserController extends BaseController
             }
         }
         return 'done!';
+    }
+
+    /**
+     * @param int $user_id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function customLogin(int $user_id)
+    {
+        if (Auth::user()->role == "admin") {
+            $user = User::find($user_id);
+            if (Auth::login($user)) {
+                $current_user = Auth::user();
+                dd($current_user);
+            }
+        }
+        return redirect('/');
     }
 
     /**

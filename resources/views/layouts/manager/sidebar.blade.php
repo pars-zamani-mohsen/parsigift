@@ -94,7 +94,7 @@
                                 </a>
                             </li>
 
-                            @if(in_array($login_user->id, array(1, 2)))
+                            @if(in_array($login_user->id, array(1, 3)))
                                 @php  $moduleModel = '\App\Recyclebin';  $url = '/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $moduleModel::$modulename['en']; @endphp
                                 <li class="submenu-item" data-url="{{ $url }}">
                                     <a href="{{ url($url) }}">

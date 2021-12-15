@@ -34,13 +34,14 @@ class GiftRequestController extends Controller
         );
         $this->validate($request, $validate_data);
 
-        /* check duplicate device and ip */
-        $duplicate_device = User::select('id')->where('device', $request->device)->where('ip', $request->ip)->where('tell', '<>', Date::convertPersianNumToEnglish($request->mobile))->first();
-        if (!$duplicate_device) {
+        /* check user exsit */
+        $current_user = User::select('id', 'active', 'r_and_d_check', 'device', 'ip')->where('tell', Date::convertPersianNumToEnglish($request->mobile))->first();
 
-            /* check user exsit */
-            $current_user = User::select('id', 'active', 'r_and_d_check', 'device', 'ip')->where('tell', Date::convertPersianNumToEnglish($request->mobile))->first();
-            if ($current_user) {
+        if ($current_user) {
+
+            /* check duplicate device and ip */
+            $duplicate_device = User::select('id')->where('device', $request->device)->where('ip', $request->ip)->where('id', '!=', $current_user->id)->first();
+            if (!$duplicate_device) {
 
                 /* check user active */
                 if ($current_user->active && $current_user->r_and_d_check) {
@@ -51,7 +52,6 @@ class GiftRequestController extends Controller
                         ->where('user_id', $current_user->id)
                         ->where('updated_at', '>' , $created_at)
                         ->first();
-//                    dd($checker, $created_at, date('Y-m-d H:i:s' , $created_at), $waiting, $current_user->id);
                     if (!$checker) {
 
                         $date = Date('Y-m-d');
@@ -104,6 +104,7 @@ class GiftRequestController extends Controller
                                 );
 
                             } else {
+                                file_put_contents('pars_link_not_exist.json', json_encode([$request->all(), $current_user]));
                                 $message = array(
                                     'success' => false,
                                     'message' => array(
@@ -114,6 +115,7 @@ class GiftRequestController extends Controller
                             }
 
                         } else {
+                            file_put_contents('pars_check_daily_query.json', json_encode([$request->all(), $current_user]));
                             $message = array(
                                 'success' => false,
                                 'message' => array(
@@ -124,6 +126,7 @@ class GiftRequestController extends Controller
                         }
 
                     }  else {
+                        file_put_contents('pars_timer.json', json_encode([$request->all(), $current_user]));
                         $message = array(
                             'success' => false,
                             'message' => array(
@@ -135,6 +138,7 @@ class GiftRequestController extends Controller
 
 
                 } else {
+                    file_put_contents('pars_check_user_active.json', json_encode([$request->all(), $current_user]));
                     $message = array(
                         'success' => false,
                         'message' => array(
@@ -145,20 +149,22 @@ class GiftRequestController extends Controller
                 }
 
             } else {
+                file_put_contents('pars_device.json', json_encode([$request->all(), $duplicate_device]));
                 $message = array(
                     'success' => false,
                     'message' => array(
-                        'text' => 'شماره موبایل وارد شده ثبت نشده است',
-                        'code' => 101,
+                        'text' => 'این دستگاه برای شخص دیگری در حال استفاده است، لطفا با دستگاه دیگری امتحان کنید',
+                        'code' => 100,
                     )
                 );
             }
         } else {
+            file_put_contents('pars_check_user.json', json_encode([$request->all(), $current_user]));
             $message = array(
                 'success' => false,
                 'message' => array(
-                    'text' => 'این دستگاه برای شخص دیگری در حال استفاده است، لطفا با دستگاه دیگری امتحان کنید',
-                    'code' => 100,
+                    'text' => 'شماره موبایل وارد شده ثبت نشده است',
+                    'code' => 101,
                 )
             );
         }

@@ -103,7 +103,10 @@
                                         </div>
                                         <div class="col-md-8">
                                             <h6 class="text-muted font-semibold">تعداد کل کاربران جدید <span class="text-danger">غیرفعال</span> (غیرادمین)</h6>
-                                            <h6 class="font-extrabold mb-0">{{ $all_user_deactive['count'] ?? 0 }} (%{{ $all_user_deactive['percent'] ?? 0 }})</h6>
+                                            <h6 class="font-extrabold mb-0">
+                                                {{ $all_user_deactive['count'] ?? 0 }} (%{{ $all_user_deactive['percent'] ?? 0 }})
+                                                <a class="btn btn-outline-secondary" href="{{ url('/_manager/report/task/list/all/' . base64_encode(implode(',', $all_user_deactive['value'] ?? array()))) }}">مشاهده</a>
+                                            </h6>
                                         </div>
                                     </div>
                                 </div>

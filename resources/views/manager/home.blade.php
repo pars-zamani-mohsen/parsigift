@@ -12,7 +12,12 @@
     @php $login_user = \Illuminate\Support\Facades\Auth::user(); @endphp
 
     <div class="page-heading">
-        <h3>به سامانه مدیریت <b class="text-primary">{{ config('app.name') }}</b> خوش آمدید</h3>
+        <h3>
+            <span class="text-primary">{{ $login_user->name }} عزیز</span>
+            <span>به سامانه مدیریت</span>
+            <b class="text-primary">{{ config('app.name') }}</b>
+            <span> خوش آمدید</span>
+        </h3>
     </div>
     <div class="page-content">
         <section class="row">

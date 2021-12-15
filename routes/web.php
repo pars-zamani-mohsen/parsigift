@@ -76,6 +76,7 @@ Route::group(['prefix' => '/_manager', 'middleware' => 'auth'], function () {
     Route::get('user/{id}/activation', 'UserController@activation')->name('User.activation')->middleware('userlimit');
     Route::get('user/{id}/history', 'UserController@getHistory')->name('User.history');
     Route::get('user/module/search', 'UserController@search')->name('User.search');
+    Route::get('user/login/{userid}', 'UserController@customLogin')->name('User.customLogin');
 
     // ActivityLog
     Route::resource('/activitylog', 'ActivityLogController')->middleware('userlimit');
