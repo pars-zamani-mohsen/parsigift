@@ -104,7 +104,6 @@ class GiftRequestController extends Controller
                                 );
 
                             } else {
-                                file_put_contents('pars_link_not_exist.json', json_encode([$request->all(), $current_user]));
                                 $message = array(
                                     'success' => false,
                                     'message' => array(
@@ -112,10 +111,18 @@ class GiftRequestController extends Controller
                                         'code' => 104,
                                     )
                                 );
+                                file_put_contents('pars_link_not_exist.json',
+                                    json_encode(
+                                        [
+                                            'message' => $message,
+                                            'request' => $request->all(),
+                                            'current_user' => $current_user
+                                        ]
+                                    )
+                                );
                             }
 
                         } else {
-                            file_put_contents('pars_check_daily_query.json', json_encode([$request->all(), $current_user]));
                             $message = array(
                                 'success' => false,
                                 'message' => array(
@@ -123,10 +130,18 @@ class GiftRequestController extends Controller
                                     'code' => 103,
                                 )
                             );
+                            file_put_contents('pars_check_daily_query.json',
+                                json_encode(
+                                    [
+                                        'message' => $message,
+                                        'request' => $request->all(),
+                                        'current_user' => $current_user
+                                    ]
+                                )
+                            );
                         }
 
                     }  else {
-                        file_put_contents('pars_timer.json', json_encode([$request->all(), $current_user]));
                         $message = array(
                             'success' => false,
                             'message' => array(
@@ -134,11 +149,20 @@ class GiftRequestController extends Controller
                                 'code' => 105,
                             )
                         );
+                        file_put_contents('pars_timer.json',
+                            json_encode(
+                                [
+                                    'message' => $message,
+                                    'request' => $request->all(),
+                                    'current_user' => $current_user,
+                                    'checker' => $checker,
+                                ]
+                            )
+                        );
                     }
 
 
                 } else {
-                    file_put_contents('pars_check_user_active.json', json_encode([$request->all(), $current_user]));
                     $message = array(
                         'success' => false,
                         'message' => array(
@@ -146,10 +170,18 @@ class GiftRequestController extends Controller
                             'code' => 102,
                         )
                     );
+                    file_put_contents('pars_check_user_active.json',
+                        json_encode(
+                            [
+                                'message' => $message,
+                                'request' => $request->all(),
+                                'current_user' => $current_user
+                            ]
+                        )
+                    );
                 }
 
             } else {
-                file_put_contents('pars_device.json', json_encode([$request->all(), $duplicate_device]));
                 $message = array(
                     'success' => false,
                     'message' => array(
@@ -157,14 +189,32 @@ class GiftRequestController extends Controller
                         'code' => 100,
                     )
                 );
+                file_put_contents('pars_device.json',
+                    json_encode(
+                        [
+                            'message' => $message,
+                            'request' => $request->all(),
+                            'current_user' => $current_user,
+                            'duplicate_device' => $duplicate_device
+                        ]
+                    )
+                );
             }
         } else {
-            file_put_contents('pars_check_user.json', json_encode([$request->all(), $current_user]));
             $message = array(
                 'success' => false,
                 'message' => array(
                     'text' => 'شماره موبایل وارد شده ثبت نشده است',
                     'code' => 101,
+                )
+            );
+            file_put_contents('pars_check_user.json',
+                json_encode(
+                    [
+                        'message' => $message,
+                        'request' => $request->all(),
+                        'current_user' => $current_user
+                    ]
                 )
             );
         }
