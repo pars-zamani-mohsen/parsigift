@@ -102,7 +102,7 @@
                     <div class="col-12 col-xl-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>کلمه هایی که امروز باید در گوگل جستجو کنم</h4>
+                                <h4>عبارت هایی که امروز باید در گوگل جستجو کنم</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -123,7 +123,10 @@
                                                         <td>
                                                             <div><a href="#"><!--#{{ $item['query_id'] }}-->{{ $item->_query->title ?? '' }}</a></div>
                                                             <div dir="ltr">{{ urldecode($item->_query->url) ?? '' }}</div>
-                                                            <div dir="rtl" class="@if($item['status']) text-success @else text-danger @endif">{{ ($item['status']) ? 'ثبت شد' : 'هنوز ثبت نشده' }}</div>
+                                                            <div dir="rtl" class="@if($item['status']) text-success @else text-danger @endif">
+                                                                {{ ($item['status']) ? 'ثبت شد' : 'هنوز ثبت نشده' }}
+                                                                @if(!$item['status'])<a class="btn btn-sm btn-light-danger" href="{{ url('/_manager/changeQuery/' . $item['id']) }}">تغییر عبارت</a>@endif
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 @endforeach

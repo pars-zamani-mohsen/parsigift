@@ -41,7 +41,7 @@ class Date
     {
         if ($date) {
             $PersianDatetimeArray = explode(' ', Date::convertPersianNumToEnglish($date));
-            $PersianDateArray = explode('/', Date::convertPersianNumToEnglish($PersianDatetimeArray[0]));
+            $PersianDateArray = explode('/', Date::convertPersianNumToEnglish(str_replace('-', '/', $PersianDatetimeArray[0])));
             $MiladiDateArray = CalendarUtils::toGregorian($PersianDateArray[0], $PersianDateArray[1], $PersianDateArray[2]);
             $MiladiDateString = implode($MiladiDateArray, '-') . ' ' . $PersianDatetimeArray[1];
             $timestamp = strtotime($MiladiDateString);

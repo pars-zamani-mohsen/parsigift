@@ -128,7 +128,7 @@
                                 <div class="form-group">
                                     <label for="field">عبارت مورد نظر را در کادر زیر وارد کنید <small class="text-danger">(آیدی، متن، تاریخ و ...)</small></label>
                                     <input type="text" name="field" id="field" class="form-control" value="" autofocus required autocomplete="field">
-                                    <small>ستون های مرتبط(مانند کشور، خدمت و ...) را با آیدی جستجو کنید</small>
+                                    <small>ستون های مرتبط(مانند کشور، خدمت و ...) را با آیدی آن جستجو کنید مثال: #38</small>
                                 </div>
                             </div>
                             <div class="col-12">

@@ -15,7 +15,7 @@ class CustomValidator
     public static function mobile_validator($phone_number)
     {
         $pattern = "/^(?:\+?98|0)[9]{1}[0-9]{9}$/";
-        if(preg_match($pattern, $phone_number)) {
+        if(preg_match($pattern, Date::convertPersianNumToEnglish($phone_number))) {
             return true;
         }
         return false;

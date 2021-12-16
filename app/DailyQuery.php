@@ -22,7 +22,7 @@ class DailyQuery extends Model
      * The model information
      * @var string[]
      */
-    public static $modulename = array('en' => 'dailyQuery', 'fa' => 'کلمه هایی که باید امروز جستجو کنم', 'model' => 'DailyQuery');
+    public static $modulename = array('en' => 'dailyQuery', 'fa' => 'عبارت هایی که باید امروز جستجو کنم', 'model' => 'DailyQuery');
 
     /**
      * module fields for select and search

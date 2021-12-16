@@ -160,7 +160,8 @@ class HomeController extends Controller
                 );
             }
 
-        } catch (\Exception $e){}
+        } catch (\Exception $e) {
+        }
 
         return $response;
     }
@@ -206,7 +207,7 @@ class HomeController extends Controller
         return view('manager.bigGiftList', array(
             'modulename' => array('en' => '', 'fa' => 'جایزه بزرگ', 'model' => ''),
             'title' => ' فهرست ' . '',
-            'all' => DailyGift::with('user')->select('id', 'user_id', 'created_at')->where('special', 1)->paginate(10),
+            'all' => DailyGift::with('user')->select('id', 'user_id', 'created_at')->where('special', 1)->orderBy('id', 'DESC')->paginate(10),
             'search' => false,
             'onlylist' => true,
         ));
@@ -217,31 +218,41 @@ class HomeController extends Controller
      *
      * @param $current_user
      * @param string $date
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function registerDailyQuery($current_user, string $date)
     {
-        $dailyQuery_Count = DailyQuery::where('user_id', $current_user->id)
-            ->where('created_at', '>', strtotime($date . ' 00:00:00'))
-            ->where('created_at', '<', strtotime($date . ' 23:59:59'))
-            ->count();
+        try {
+            $dailyQuery_Count = DailyQuery::where('user_id', $current_user->id)
+                ->where('created_at', '>', strtotime($date . ' 00:00:00'))
+                ->where('created_at', '<', strtotime($date . ' 23:59:59'))
+                ->count();
 
-        /* get latest daily query in query id */
-        $fromdate = date('Y-m-d', strtotime('-2 days'));
-        $todate = date('Y-m-d', strtotime('-1 days'));
-        $last_DailyQuery = DailyQuery::where('user_id', $current_user->id)
-            ->where('created_at', '>', strtotime($fromdate . ' 00:00:00'))
-            ->where('created_at', '<', strtotime($todate . ' 23:59:59'))
-            ->pluck('query_id')->toArray();
+            /* get latest daily query in query id */
+            $fromdate = date('Y-m-d', strtotime('-2 days'));
+            $todate = date('Y-m-d', strtotime('-1 days'));
+            $last_DailyQuery = DailyQuery::where('user_id', $current_user->id)
+                ->where('created_at', '>', strtotime($fromdate . ' 00:00:00'))
+                ->where('created_at', '<', strtotime($todate . ' 23:59:59'))
+                ->pluck('query_id')->toArray();
 
-        if (!$dailyQuery_Count) {
-            $querys = Query::active()->whereNotIn('id', $last_DailyQuery)->inRandomOrder()->limit(10)->get();
-            foreach ($querys as $query) {
-                $instance = new DailyQuery();
-                $instance->user_id = $current_user->id;
-                $instance->query_id = $query->id;
-                $instance->save();
+            if (!$dailyQuery_Count) {
+                $querys = Query::active()->whereNotIn('id', $last_DailyQuery)->inRandomOrder()->limit(10)->get();
+                foreach ($querys as $query) {
+                    $instance = new DailyQuery();
+                    $instance->user_id = $current_user->id;
+                    $instance->query_id = $query->id;
+                    $instance->save();
+                }
             }
+
+
+        } catch (\Exception $e) {
+            Session::flash('alert', $e->getMessage());
+            return redirect()->back();
         }
+
+        return false;
     }
 
     /**
@@ -258,5 +269,35 @@ class HomeController extends Controller
     public static function fetch_manager_pre_path()
     {
         return 'manager';
+    }
+
+    public function changeQuery(int $id)
+    {
+        try {
+            $date = Date('Y-m-d');
+            $dailyQuery = DailyQuery::find($id);
+
+            if (!$dailyQuery->status) {
+                $dailyQuerys_id = DailyQuery::where('user_id', $dailyQuery->user_id)
+                    ->where('created_at', '>', strtotime($date . ' 00:00:00'))
+                    ->where('created_at', '<', strtotime($date . ' 23:59:59'))
+                    ->pluck('query_id')->toArray();
+
+                $query_id = Query::whereNotIn('id', $dailyQuerys_id)->inRandomOrder()->value('id');
+
+                $dailyQuery->query_id = $query_id;
+                $dailyQuery->save();
+
+                Session::flash('message', 'عبارت مورد نظر تغییر کرد');
+                return redirect()->back();
+            } else {
+                Session::flash('alert', 'این عبارت تکمیل شده');
+                return redirect()->back();
+            }
+
+        } catch (\Exception $e) {
+            Session::flash('alert', $e->getMessage());
+            return redirect()->back();
+        }
     }
 }
