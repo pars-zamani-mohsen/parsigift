@@ -15,7 +15,7 @@
                 @foreach ($all as $key => $item)
                     <tr>
                         <!--<td>#{{ $item['id'] }}</td>-->
-                        <td>{{ $item->user['name'] }}</td>
+                        <td>{{ $item->user['name'] }}@if($item->user['nesbat']) ({{$item->user['nesbat']}}) @endif</td>
                         <td dir="ltr" class="text-start">{{ App\AdditionalClasses\Date::timestampToShamsi($item['created_at']) }}</td>
                     </tr>
                 @endforeach

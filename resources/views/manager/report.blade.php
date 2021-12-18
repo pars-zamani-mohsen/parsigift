@@ -119,58 +119,6 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="dashboard-icon">
-                                                <i class="bi bi-list-stars bg-primary text-white"></i>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <h6 class="text-muted font-semibold">تعداد کل کوئری ها </h6><span class="fs-7">(در بازه انتخاب شده)</span>
-                                            <h6 class="font-extrabold mb-0">{{ $today_query['count'] ?? 0 }} (%{{ $today_query['percent'] ?? 0 }})</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4">
-                            <div class="card">
-                                <div class="card-body px-3 py-4-5">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="dashboard-icon">
-                                                <i class="bi bi-list-check bg-success text-white"></i>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <h6 class="text-muted font-semibold">تعداد جستجو های <span class="text-success">ثبت شده</span></h6><span class="fs-7">(در بازه انتخاب شده)</span>
-                                            <h6 class="font-extrabold mb-0">{{ $success_query['count'] ?? 0 }} (%{{ $success_query['percent'] ?? 0 }})</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4">
-                            <div class="card">
-                                <div class="card-body px-3 py-4-5">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="dashboard-icon">
-                                                <i class="bi bi-list-task bg-danger text-white"></i>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <h6 class="text-muted font-semibold">تعداد جستجو های <span class="text-danger">تکمیل نشده</span></h6><span class="fs-7">(در بازه انتخاب شده)</span>
-                                            <h6 class="font-extrabold mb-0">{{ $pending_query['count'] ?? 0 }} (%{{ $pending_query['percent'] ?? 0 }})</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-lg-4">
-                            <div class="card">
-                                <div class="card-body px-3 py-4-5">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="dashboard-icon">
                                                 <i class="bi bi-person-lines-fill bg-primary text-white"></i>
                                             </div>
                                         </div>
@@ -223,6 +171,58 @@
                                                 <a class="btn btn-outline-secondary" href="{{ url('/_manager/report/task/list/pending/' . base64_encode(implode(',', $users_pending_query_list['value'] ?? array()))) }}">مشاهده</a>
                                             </h6>
                                             <h6 class="font-extrabold mb-0">{{ $users_pending_query_list['count'] ?? 0 }} (%{{ $users_pending_query_list['percent'] ?? 0 }})</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-4">
+                            <div class="card">
+                                <div class="card-body px-3 py-4-5">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="dashboard-icon">
+                                                <i class="bi bi-list-stars bg-primary text-white"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h6 class="text-muted font-semibold">تعداد کل کوئری ها </h6><span class="fs-7">(در بازه انتخاب شده)</span>
+                                            <h6 class="font-extrabold mb-0">{{ $today_query['count'] ?? 0 }} (%{{ $today_query['percent'] ?? 0 }})</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="card">
+                                <div class="card-body px-3 py-4-5">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="dashboard-icon">
+                                                <i class="bi bi-list-check bg-success text-white"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h6 class="text-muted font-semibold">تعداد جستجو های <span class="text-success">ثبت شده</span></h6><span class="fs-7">(در بازه انتخاب شده)</span>
+                                            <h6 class="font-extrabold mb-0">{{ $success_query['count'] ?? 0 }} (%{{ $success_query['percent'] ?? 0 }})</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="card">
+                                <div class="card-body px-3 py-4-5">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="dashboard-icon">
+                                                <i class="bi bi-list-task bg-danger text-white"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h6 class="text-muted font-semibold">تعداد جستجو های <span class="text-danger">تکمیل نشده</span></h6><span class="fs-7">(در بازه انتخاب شده)</span>
+                                            <h6 class="font-extrabold mb-0">{{ $pending_query['count'] ?? 0 }} (%{{ $pending_query['percent'] ?? 0 }})</h6>
                                         </div>
                                     </div>
                                 </div>

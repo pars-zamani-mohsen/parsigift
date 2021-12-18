@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DailyGift;
+use App\Gift;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -64,18 +65,10 @@ class DailyGiftController extends BaseController
     {
         $date = date('Y-m-d', strtotime("-1 days")); // strtotime("-1 days") // time()
 
-        $specialGift = DailyGift::where('special', 1)
-            ->where('created_at', '>', strtotime(date('Y-m-d') . ' 00:00:00'))
-            ->where('created_at', '<', strtotime(date('Y-m-d') . ' 23:59:59'))
-            ->first();
-
+        $specialGift = $this->dailyGiftSelector($date, true);
         if (!$specialGift) {
-            $dailyGift = DailyGift::with(['user'])
-                ->where('created_at', '>', strtotime($date . ' 00:00:00'))
-                ->where('created_at', '<', strtotime($date . ' 23:59:59'))
-                ->where('special', 0)
-                ->inRandomOrder()->first();
 
+            $dailyGift = $this->dailyGiftSelector($date);
             if ($dailyGift) {
                 $user = $dailyGift->user;
                 /* insert gift */
@@ -86,6 +79,7 @@ class DailyGiftController extends BaseController
                 $dailyGift->special = 1;
                 $dailyGift->save();
                 $message = 'هدیه مخصوص پارسی گیفت امروز اختصاص داده شد به #' . $user->id . '-' . $user->name;
+                if($user->nesbat) $message .= " ($user->nesbat)";
 
                 $sms_message = "با سلام، شما برنده خوش شانس جایزه بزرگ ۵۰۰ هزار تومانی امروز پارسی گیفت شدید.
 لطفا ظرف چهار ساعت آینده اسکرین شات این پیامک را در گروه هولدینگ به اشتراک بگذارید تا جایزه تان ثبت گردد.
@@ -128,5 +122,37 @@ class DailyGiftController extends BaseController
             $response = curl_exec($curl);
             curl_close($curl);
         } catch (\Exception $e) {}
+    }
+
+    /**
+     * @param $date 'Y-m-d'
+     * @param bool $special
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model|object|null
+     */
+    public function dailyGiftSelector($date, bool $special = false)
+    {
+        if ($special) {
+            $dailyGift = DailyGift::where('special', 1)
+                ->where('created_at', '>', strtotime(date('Y-m-d') . ' 00:00:00'))
+                ->where('created_at', '<', strtotime(date('Y-m-d') . ' 23:59:59'))
+                ->first();
+
+        } else {
+            $gift = Gift::where('id', '!=' , 1)->first();
+            if ($gift) {
+                $dailyGift = DailyGift::with(['user'])
+                    ->find($gift->id);
+                $gift->id = 1;
+                $gift->save();
+
+            } else {
+                $dailyGift = DailyGift::with(['user'])
+                    ->where('created_at', '>', strtotime($date . ' 00:00:00'))
+                    ->where('created_at', '<', strtotime($date . ' 23:59:59'))
+                    ->where('special', 0)
+                    ->inRandomOrder()->first();
+            }
+        }
+        return $dailyGift;
     }
 }
