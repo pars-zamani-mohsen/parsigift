@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use App\AdditionalClasses\Date;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\AdditionalClasses\CustomValidator;
+use App\AdditionalClasses\TagOptimization;
 
-### version: 1.0.1
+### version: 1.0.2
 class BaseController extends Controller
 {
     protected $parent;
@@ -280,8 +282,9 @@ class BaseController extends Controller
                 return view($this->parent['path'] . '.' . $this->modulename['en'] . '.list', array(
                     'modulename' => $this->modulename,
                     'title' => ' فهرست ' . $this->modulename['fa'],
-                    'all' => $query->orderBy('id', 'DESC')->paginate(999),
+                    'all' => $query->orderBy('id', 'DESC')->paginate(20)->withPath(CustomValidator::removeUrlParameter(URL::full(), 'page')),
                     'search' => true,
+		    'is_related_list' => true
                 ));
             }
 

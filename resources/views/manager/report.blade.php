@@ -69,7 +69,9 @@
                                         </div>
                                         <div class="col-md-8">
                                             <h6 class="text-muted font-semibold">تعداد کل کاربران(غیر ادمین)</h6>
-                                            <h6 class="font-extrabold mb-0">{{ $all_user['count'] ?? 0 }} (%{{ $all_user['percent'] ?? 0 }})</h6>
+                                            <h6 class="font-extrabold mb-0">
+                                                {{ $all_user['count'] ?? 0 }} (%{{ $all_user['percent'] ?? 0 }})
+                                                <a class="btn btn-outline-secondary btn-sm invisible" href="#">مشاهده</a></h6>
                                         </div>
                                     </div>
                                 </div>
@@ -86,7 +88,9 @@
                                         </div>
                                         <div class="col-md-8">
                                             <h6 class="text-muted font-semibold">تعداد کل کاربران <span class="text-success">فعال</span> (غیر ادمین)</h6>
-                                            <h6 class="font-extrabold mb-0">{{ $all_user_active['count'] ?? 0 }} (%{{ $all_user_active['percent'] ?? 0 }})</h6>
+                                            <h6 class="font-extrabold mb-0">
+                                                {{ $all_user_active['count'] ?? 0 }} (%{{ $all_user_active['percent'] ?? 0 }})
+                                                <a class="btn btn-outline-secondary btn-sm invisible" href="#">مشاهده</a></h6>
                                         </div>
                                     </div>
                                 </div>
@@ -105,7 +109,7 @@
                                             <h6 class="text-muted font-semibold">تعداد کل کاربران جدید <span class="text-danger">غیرفعال</span> (غیرادمین)</h6>
                                             <h6 class="font-extrabold mb-0">
                                                 {{ $all_user_deactive['count'] ?? 0 }} (%{{ $all_user_deactive['percent'] ?? 0 }})
-                                                <a class="btn btn-outline-secondary" href="{{ url('/_manager/report/task/list/all/' . base64_encode(implode(',', $all_user_deactive['value'] ?? array()))) }}">مشاهده</a>
+                                                <a class="btn btn-outline-secondary btn-sm" href="{{ url('/_manager/report/task/list/all/' . base64_encode(implode(',', $all_user_deactive['value'] ?? array()))) }}">مشاهده</a>
                                             </h6>
                                         </div>
                                     </div>
@@ -124,9 +128,9 @@
                                         </div>
                                         <div class="col-md-8">
                                             <h6 class="text-muted font-semibold">
-                                                <span>تعداد کل کاربرهای فعال که تسک دریافت کرده اند </span>
-                                                <span class="bold text-success invisible">تکمیل شده</span> <span class="fs-7">(در بازه انتخاب شده)</span>
-                                                <a class="btn btn-outline-secondary" href="{{ url('/_manager/report/task/list/all/' . base64_encode(implode(',', $all_users_query_list['value'] ?? array()))) }}">مشاهده</a>
+                                                <span>تعداد کل تسک های روزانه انتصاب داده شده به کاربران</span>
+                                                <span class="fs-7">(در بازه انتخاب شده)</span>
+                                                <a class="btn btn-outline-secondary btn-sm" href="{{ url('/_manager/report/task/list/all/' . base64_encode(implode(',', $all_users_query_list['value'] ?? array()))) }}">مشاهده</a>
                                             </h6>
                                             <h6 class="font-extrabold mb-0">{{ $all_users_query_list['count'] ?? 0 }} (%{{ $all_users_query_list['percent'] ?? 0 }})</h6>
                                         </div>
@@ -145,9 +149,9 @@
                                         </div>
                                         <div class="col-md-8">
                                             <h6 class="text-muted font-semibold">
-                                                <span>تعداد کاربرهایی که  تسک هایشان </span>
-                                                <span class="bold text-success">ثــبت شده</span> <span class="fs-7">(در بازه انتخاب شده)</span>
-                                                <a class="btn btn-outline-secondary" href="{{ url('/_manager/report/task/list/success/' . base64_encode(implode(',', $users_success_query_list['value'] ?? array()))) }}">مشاهده</a>
+                                                <span>تعداد تسک های روزانه کاربران</span>
+                                                <span class="bold text-success">تــــکمیل شده</span> <span class="fs-7">(در بازه انتخاب شده)</span>
+                                                <a class="btn btn-outline-secondary btn-sm" href="{{ url('/_manager/report/task/list/success/' . base64_encode(implode(',', $users_success_query_list['value'] ?? array()))) }}">مشاهده</a>
                                             </h6>
                                             <h6 class="font-extrabold mb-0">{{ $users_success_query_list['count'] ?? 0 }} (%{{ $users_success_query_list['percent'] ?? 0 }})</h6>
                                         </div>
@@ -166,9 +170,9 @@
                                         </div>
                                         <div class="col-md-8">
                                             <h6 class="text-muted font-semibold">
-                                                <span>تعداد کاربرهایی که  تسک هایشان </span>
-                                                <span class="text-danger">تکمیل نشده</span> <span class="fs-7">(در بازه انتخاب شده)</span>
-                                                <a class="btn btn-outline-secondary" href="{{ url('/_manager/report/task/list/pending/' . base64_encode(implode(',', $users_pending_query_list['value'] ?? array()))) }}">مشاهده</a>
+                                                <span>تعداد تــسک های روزانه کاربـــران </span>
+                                                <span class="text-danger">ناقـــــص</span> <span class="fs-7">(در بازه انتخاب شده)</span>
+                                                <a class="btn btn-outline-secondary btn-sm" href="{{ url('/_manager/report/task/list/pending/' . base64_encode(implode(',', $users_pending_query_list['value'] ?? array()))) }}">مشاهده</a>
                                             </h6>
                                             <h6 class="font-extrabold mb-0">{{ $users_pending_query_list['count'] ?? 0 }} (%{{ $users_pending_query_list['percent'] ?? 0 }})</h6>
                                         </div>
@@ -187,7 +191,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-8">
-                                            <h6 class="text-muted font-semibold">تعداد کل کوئری ها </h6><span class="fs-7">(در بازه انتخاب شده)</span>
+                                            <h6 class="text-muted font-semibold">تعداد کوئری های انتصاب داده شده به کاربران</h6><span class="fs-7">(در بازه انتخاب شده)</span>
                                             <h6 class="font-extrabold mb-0">{{ $today_query['count'] ?? 0 }} (%{{ $today_query['percent'] ?? 0 }})</h6>
                                         </div>
                                     </div>
@@ -204,7 +208,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-8">
-                                            <h6 class="text-muted font-semibold">تعداد جستجو های <span class="text-success">ثبت شده</span></h6><span class="fs-7">(در بازه انتخاب شده)</span>
+                                            <h6 class="text-muted font-semibold">تعداد کوئری های انتصاب داده <span class="text-success">تکمیل شده</span></h6><span class="fs-7">(در بازه انتخاب شده)</span>
                                             <h6 class="font-extrabold mb-0">{{ $success_query['count'] ?? 0 }} (%{{ $success_query['percent'] ?? 0 }})</h6>
                                         </div>
                                     </div>
@@ -221,7 +225,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-8">
-                                            <h6 class="text-muted font-semibold">تعداد جستجو های <span class="text-danger">تکمیل نشده</span></h6><span class="fs-7">(در بازه انتخاب شده)</span>
+                                            <h6 class="text-muted font-semibold">تعداد کوئری های انتصاب داده شده ی  <span class="text-danger"> ناقص</span></h6><span class="fs-7">(در بازه انتخاب شده)</span>
                                             <h6 class="font-extrabold mb-0">{{ $pending_query['count'] ?? 0 }} (%{{ $pending_query['percent'] ?? 0 }})</h6>
                                         </div>
                                     </div>
@@ -235,7 +239,7 @@
                         <div class="col-12 col-lg-6">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4>کوئری های <span class="bold text-success">ثبت شده</span> </h4>
+                                    <h4>کوئری های <span class="bold text-success">تکمیل شده</span> </h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -268,7 +272,7 @@
                         <div class="col-12 col-lg-6">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4>کوئری های <span class="bold text-danger">تکمیل نشده</span> </h4>
+                                    <h4>کوئری های <span class="bold text-danger">ناقص</span> </h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">

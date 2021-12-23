@@ -52,6 +52,7 @@
                 <th></th>
                 <th>چیزی که باید جستجو کنم</th>
                 <th>وضعیت</th>
+                <th>تاریخ ثبت</th>
             </tr>
             </thead>
             <tbody>
@@ -64,6 +65,7 @@
                         <td class="@if($item['status']) text-success @else text-danger @endif">
                             {{ ($item['status']) ? 'ثبت شد' : 'هنوز ثبت نشده' }}
                         </td>
+                        <td dir="ltr" class="text-start">{{ App\AdditionalClasses\Date::timestampToShamsiDatetime($item['updated_at']) }}</td>
                     </tr>
                     @php if(!$item['status']) ++$i; @endphp
                 @endforeach

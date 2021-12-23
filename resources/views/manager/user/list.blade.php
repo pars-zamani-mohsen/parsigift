@@ -38,13 +38,15 @@
                     <td dir="ltr" class="text-start">{{ App\AdditionalClasses\Date::timestampToShamsiDatetime($item['updated_at']) }}</td>
                     <td>#{{ $item['publisher']['id'] }}-{{ $item['publisher']['name'] }}</td>
                     <td>
-                        @if(in_array($login_user->id, [1, 3]))
-                            <a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $modulename['en'] . '/login/' . $item['id']) }}" title="ورود با کاربر "> <i class="bi bi-door-open-fill text-dark"></i> </a>
-                        @endif
-                        <a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $modulename['en'] . '/' . $item['id'] . '/edit') }}" title="ویرایش "> <i class="bi bi-pencil-square"></i> </a>
-                        <a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $modulename['en'] . '/' . $item['id'] . '/history') }}" title="تاریخجه"> <i class="bi bi-clock-history text-info"></i> </a>
-                        <a class="_deactive" href="#"> <i class="bi bi-lightbulb-off text-warning" data-url="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $modulename['en'] . '/' . $item['id'] . '/activation') }}" title="فعال/غیر فعال"></i> </a>
-                        <a class="_delete" href="#"> <i class="bi bi-trash text-danger" data-url="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $modulename['en'] . '/' . $item['id'] . '/delete') }}" title="حذف"></i> </a>
+						@if ($item['id'] != 1)
+							@if(in_array($login_user->id, [1, 3]))
+								<a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $modulename['en'] . '/login/' . $item['id']) }}" title="ورود با کاربر "> <i class="bi bi-door-open-fill text-dark"></i> </a>
+							@endif
+							<a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $modulename['en'] . '/' . $item['id'] . '/edit') }}" title="ویرایش "> <i class="bi bi-pencil-square"></i> </a>
+							<a href="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $modulename['en'] . '/' . $item['id'] . '/history') }}" title="تاریخجه"> <i class="bi bi-clock-history text-info"></i> </a>
+							<a class="_deactive" href="#"> <i class="bi bi-lightbulb-off text-warning" data-url="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $modulename['en'] . '/' . $item['id'] . '/activation') }}" title="فعال/غیر فعال"></i> </a>
+							<a class="_delete" href="#"> <i class="bi bi-trash text-danger" data-url="{{ url('/'. App\Http\Controllers\HomeController::fetch_manager_pre_url() .'/' . $modulename['en'] . '/' . $item['id'] . '/delete') }}" title="حذف"></i> </a>
+						@endif
                     </td>
                 </tr>
             @endforeach

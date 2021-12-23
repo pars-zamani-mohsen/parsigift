@@ -37,17 +37,19 @@ class HomeController extends Controller
         $current_user = Auth::user();
 
         if ($current_user->role == 'user') {
-            $this->registerDailyQuery($current_user, $date);
+            if ($current_user->active && $current_user->r_and_d_check) {
+                $this->registerDailyQuery($current_user, $date);
 
-            $dailyQuery = DailyQuery::with('_query')
-                ->where('user_id', $current_user->id)
-                ->where('created_at', '>', strtotime($date . ' 00:00:00'))
-                ->where('created_at', '<', strtotime($date . ' 23:59:59'))
-                ->limit(10)
-                ->orderBy('id', 'Desc')
-                ->get();
+                $dailyQuery = DailyQuery::with('_query')
+                    ->where('user_id', $current_user->id)
+                    ->where('created_at', '>', strtotime($date . ' 00:00:00'))
+                    ->where('created_at', '<', strtotime($date . ' 23:59:59'))
+                    ->limit(10)
+                    ->orderBy('id', 'Desc')
+                    ->get();
+            }
             $data = array(
-                'dailyQuery' => $dailyQuery,
+                'dailyQuery' => $dailyQuery ?? array(),
             );
 
         } else {
@@ -218,7 +220,7 @@ class HomeController extends Controller
      *
      * @param $current_user
      * @param string $date
-     * @return \Illuminate\Http\RedirectResponse
+     * @return false|\Illuminate\Http\RedirectResponse
      */
     public function registerDailyQuery($current_user, string $date)
     {

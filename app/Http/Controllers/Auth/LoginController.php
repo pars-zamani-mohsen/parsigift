@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -77,7 +79,15 @@ class LoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
-            return $this->sendLoginResponse($request);
+            if(Auth::user()->active && Auth::user()->r_and_d_check) {
+                return $this->sendLoginResponse($request);
+            } else {
+                $this->guard()->logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                Session::flash('alert', 'حساب کاربری شما به دلیل عدم فعالیت در سه روز متوالی غیرفعال شده و امکان ورود ندارید، لطفا با پشتیبانی تماس بگیرید');
+                return redirect()->back();
+            }
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
