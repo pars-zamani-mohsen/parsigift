@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DailyGift;
 use App\Gift;
+use App\GiftRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -146,10 +147,16 @@ class DailyGiftController extends BaseController
                 $gift->save();
 
             } else {
+                $users_id = DailyGift::where('special', 1)
+                    ->pluck('user_id')->toArray();
+                $_2nd_users_id = GiftRequest::pluck('id')->toArray();
+                $users_id = array_unique(array_merge($users_id, $_2nd_users_id));
+
                 $dailyGift = DailyGift::with(['user'])
                     ->where('created_at', '>', strtotime($date . ' 00:00:00'))
                     ->where('created_at', '<', strtotime($date . ' 23:59:59'))
                     ->where('special', 0)
+                    ->whereNotIn('user_id', $users_id)
                     ->inRandomOrder()->first();
             }
         }

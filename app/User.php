@@ -31,7 +31,7 @@ class User extends Authenticatable
      * module fields for select and search
      * @var string[]
      */
-    public static $modulefields = array('id', 'name', 'tell', 'cart_number', 'active', 'role', 'created_at', 'updated_at', 'created_by');
+    public static $modulefields = array('id', 'name', 'tell', 'cart_number', 'active', 'nesbat', 'role', 'created_at', 'updated_at', 'created_by');
 
     /**
      * Get the format for database stored dates.
